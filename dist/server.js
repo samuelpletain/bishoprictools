@@ -33,13 +33,14 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || "3000";
 const dbstring = process.env.ATLAS_URI || "";
+const host = process.env.RENDER_EXTERNAL_URL || "http://localhost";
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 mongoose.connect(dbstring).then(() => {
     console.log('Successfully connected to MongoDB');
     app.listen(port, () => {
-        console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+        console.log(`⚡️[server]: Server is running at ${host}:${port}`);
     });
 }).catch((err) => {
     console.log(err);
