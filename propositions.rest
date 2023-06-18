@@ -1,0 +1,2 @@
+### Localhost
+GET http://localhost:3000/propositions HTTP/1.1
