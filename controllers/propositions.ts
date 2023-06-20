@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import Proposition from '../models/propositions';
+import Member from '../models/members';
 
 const propositions = {
   async getAllPropositions(req: Request, res: Response) {
@@ -72,14 +73,32 @@ const propositions = {
           } */
     try {
       const proposition = new Proposition({
-        content: req.body.content,
-        authorId: req.body.authorId
+        memberId: req.body.content,
+        callingId: req.body.authorId
       });
-      if (req.body.tags) {
-        Object.assign(proposition, { tags: req.body.tags });
+      if (req.body.leaderApproval) {
+        Object.assign(proposition, { tags: req.body.leaderApproval });
       }
-      if (req.body.replyTo) {
-        Object.assign(proposition, { replyTo: req.body.replyTo });
+      if (req.body.contactedOn) {
+        Object.assign(proposition, { replyTo: req.body.contactedOn });
+      }
+      if (req.body.interviewDate) {
+        Object.assign(proposition, { replyTo: req.body.interviewDate });
+      }
+      if (req.body.interviewed) {
+        Object.assign(proposition, { replyTo: req.body.interviewed });
+      }
+      if (req.body.accepted) {
+        Object.assign(proposition, { replyTo: req.body.accepted });
+      }
+      if (req.body.sustainedOn) {
+        Object.assign(proposition, { replyTo: req.body.sustainedOn });
+      }
+      if (req.body.setApart) {
+        Object.assign(proposition, { replyTo: req.body.setApart });
+      }
+      if (req.body.realeasedOn) {
+        Object.assign(proposition, { replyTo: req.body.realeasedOn });
       }
       const newProposition = await proposition.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
@@ -160,24 +179,33 @@ const propositions = {
                   required: true
           } */
     try {
-      const proposition = {
-        content: req.body.content,
-        authorId: req.body.authorId
-      };
-      if (req.body.tags) {
-        Object.assign(proposition, { tags: req.body.tags });
+      const proposition = new Proposition({
+        memberId: req.body.content,
+        callingId: req.body.authorId
+      });
+      if (req.body.leaderApproval) {
+        Object.assign(proposition, { tags: req.body.leaderApproval });
       }
-      if (req.body.likes) {
-        Object.assign(proposition, { likes: req.body.likes });
+      if (req.body.contactedOn) {
+        Object.assign(proposition, { replyTo: req.body.contactedOn });
       }
-      if (req.body.replyTo) {
-        Object.assign(proposition, { replyTo: req.body.replyTo });
+      if (req.body.interviewDate) {
+        Object.assign(proposition, { replyTo: req.body.interviewDate });
       }
-      if (req.body.createdOn) {
-        Object.assign(proposition, { createdOn: req.body.createdOn });
+      if (req.body.interviewed) {
+        Object.assign(proposition, { replyTo: req.body.interviewed });
       }
-      if (req.body.editedAt) {
-        Object.assign(proposition, { editedAt: req.body.editedAt });
+      if (req.body.accepted) {
+        Object.assign(proposition, { replyTo: req.body.accepted });
+      }
+      if (req.body.sustainedOn) {
+        Object.assign(proposition, { replyTo: req.body.sustainedOn });
+      }
+      if (req.body.setApart) {
+        Object.assign(proposition, { replyTo: req.body.setApart });
+      }
+      if (req.body.realeasedOn) {
+        Object.assign(proposition, { replyTo: req.body.realeasedOn });
       }
       let id: ObjectId;
       try {
@@ -210,9 +238,57 @@ const propositions = {
   },
 
   async getPropositionsByWardId(req: Request, res: Response) {
+    try {
+      let id: ObjectId;
+      try {
+        id = new ObjectId(req.params.wardId);
+      } catch (err) {
+        /* #swagger.responses[400] = {
+              description: 'An invalid MongoDB ObjectId was provided.'
+      } */
+        res.status(400).json('Please provide a valid proposition id.');
+        return;
+      }
+      const memberIds = await Member.find({ wardId: id }).distinct('_id');
+      const propositions = await Proposition.find({
+        memberId: {
+          $in: memberIds
+        }
+      }) as Proposition[];
+      res.status(200).json(propositions);
+    } catch (err) {
+      /* #swagger.responses[500] = {
+              description: 'An error occured.'
+      } */
+      res.status(500).json(err);
+    }
   },
 
   async getPropositionsByStakeId(req: Request, res: Response) {
+    try {
+      let id: ObjectId;
+      try {
+        id = new ObjectId(req.params.stakeId);
+      } catch (err) {
+        /* #swagger.responses[400] = {
+              description: 'An invalid MongoDB ObjectId was provided.'
+      } */
+        res.status(400).json('Please provide a valid proposition id.');
+        return;
+      }
+      const memberIds = await Member.find({ stakeId: id }).distinct('_id');
+      const propositions = await Proposition.find({
+        memberId: {
+          $in: memberIds
+        }
+      }) as Proposition[];
+      res.status(200).json(propositions);
+    } catch (err) {
+      /* #swagger.responses[500] = {
+              description: 'An error occured.'
+      } */
+      res.status(500).json(err);
+    }
   },
 
   async getPropositionsByOrgId(req: Request, res: Response) {
