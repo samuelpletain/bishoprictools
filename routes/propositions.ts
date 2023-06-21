@@ -1,17 +1,15 @@
 import * as express from 'express';
 
-const routes: express.Router = express.Router();
+const router: express.Router = express.Router();
 import propositions from '../controllers/propositions'
 
-routes
+router
   .get('/proposition', propositions.getAllPropositions)
-  .get('/proposition/:propositionsId', propositions.getPropositionById)
+  .get('/proposition/:propositionId', propositions.getPropositionById)
   .post('/proposition', propositions.createProposition)
-  .put('/proposition/:propositionsId', propositions.updatePropositionById)
-  .delete('/proposition/:propositionsId', propositions.deletePropositionById)
+  .put('/proposition/:propositionId', propositions.updatePropositionById)
+  .delete('/proposition/:propositionId', propositions.deletePropositionById)
   .get('/proposition/:wardId', propositions.getPropositionsByWardId)
-  .get('/proposition/:stakeId', propositions.getPropositionsByStakeId)
-  .get('/proposition/:orgId', propositions.getPropositionsByOrgId)
-  .get('/proposition/:callingId', propositions.getPropositionsByCallingId);
+  .get('/proposition/:stakeId', propositions.getPropositionsByStakeId);
 
-export default routes
+export default router

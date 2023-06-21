@@ -1,9 +1,6 @@
 # TODO
 
 ## Week 10
-- [x] Create Git Repo @samuelpletain
-- [x] Render config @samuelpletain
-- [x] Create database and collections @samuelpletain
 - [ ] Create .rest test files @SatoshiKenn
 - [ ] API DOCUMENTATION is complete and available at route ‘/api-docs’ @samuelpletain
 - [ ] Create controllers
@@ -15,10 +12,10 @@
   - [ ] Callings @SatoshiKenn
   - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
-  - [ ] Propositions @samuelpletain
 - [ ] Create routes
-  - [ ] Callings, Wards, Members @SatoshiKenn
-  - [ ] Propositions @samuelpletain
+  - [ ] Callings @SatoshiKenn
+  - [ ] Wards @SatoshiKenn
+  - [ ] Members @SatoshiKenn
 
 ## Week 11
 - [ ] Google OAuth 2.0 @samuelpletain & @SatoshiKenn (group meeting)
@@ -35,4 +32,13 @@
 - [ ] Video presentation @samuelpletain & @SatoshiKenn (group meeting)
 
 # DONE
+
+## Week 10
+- [x] Create Git Repo @samuelpletain
+- [x] Render config @samuelpletain
+- [x] Create database and collections @samuelpletain
+- [x] Create models
+  - [x] Propositions @samuelpletain
+- [x] Create routes
+  - [x] Propositions @samuelpletain
 

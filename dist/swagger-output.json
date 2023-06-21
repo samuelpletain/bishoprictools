@@ -1,0 +1,358 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Bishopric Tools API",
+        "description": "The Bishopric Tools API is a RESTful API that allows users to interact with a database containing information about ward and stake members and calling propositions. It provides endpoints for creating, retrieving, updating, and deleting wards, stakes, members, and propositions.",
+        "version": "1.0.0"
+    },
+    "host": "cse341-app2.onrender.com",
+    "basePath": "/",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "oAuthSample": {
+            "type": "oauth2",
+            "authorizationUrl": "https://accounts.google.com/o/oauth2/v2/auth",
+            "tokenUrl": "https://www.googleapis.com/oauth2/v4/token",
+            "flow": "implicit",
+            "scopes": {
+                "https://www.googleapis.com/auth/userinfo.profile": "All user operations requiring authentication."
+            }
+        }
+    },
+    "paths": {
+        "/proposition": {
+            "get": {
+                "summary": "This endpoint returns a list of all the propositions in the database.",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of proposition objects.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Proposition"
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                }
+            },
+            "post": {
+                "summary": "This endpoint creates a proposition.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "newProposition",
+                        "in": "body",
+                        "description": "An object representing a new proposition",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "content": {
+                                    "type": "string",
+                                    "example": "Jhon Doe"
+                                },
+                                "authorId": {
+                                    "type": "string",
+                                    "example": "6465a918462368509b563b23"
+                                },
+                                "tags": {
+                                    "type": "array",
+                                    "example": [
+                                        "Technology",
+                                        "Innovation",
+                                        "Programming"
+                                    ],
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "replyTo": {
+                                    "type": "string",
+                                    "example": "6465abf6462368509b563b30"
+                                }
+                            },
+                            "required": [
+                                "content",
+                                "authorId"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "acknowledged": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "insertedId": {
+                                    "type": "string",
+                                    "example": "643f75ca2cec8ebd2a3cc16c"
+                                }
+                            },
+                            "xml": {
+                                "name": "main"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "The provided proposition object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/proposition/{propositionId}": {
+            "get": {
+                "summary": "This endpoint returns the details of a single proposition.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "propositionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a proposition object.",
+                        "schema": {
+                            "$ref": "#/definitions/Proposition"
+                        }
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                }
+            },
+            "put": {
+                "summary": "This endpoint updates the content of a single proposition.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "propositionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "proposition",
+                        "in": "body",
+                        "description": "An updated proposition object",
+                        "schema": {
+                            "$ref": "#/definitions/Proposition"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The specified proposition has been edited."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "422": {
+                        "description": "The provided proposition object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "This endpoint deletes a single proposition.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "propositionId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified proposition has been deleted."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/proposition/{wardId}": {
+            "get": {
+                "summary": "This endpoint returns all propositions for a given ward.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "newProposition",
+                        "in": "body",
+                        "description": "An object representing a new proposition",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Proposition"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                }
+            }
+        },
+        "/proposition/{stakeId}": {
+            "get": {
+                "summary": "This endpoint returns all propositions for a given stake.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "stakeId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "newProposition",
+                        "in": "body",
+                        "description": "An object representing a new proposition",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Proposition"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Proposition": {
+            "type": "object",
+            "properties": {
+                "memberId": {
+                    "type": "string",
+                    "example": "649345be812b4a3f37335cf6"
+                },
+                "callingId": {
+                    "type": "string",
+                    "example": "649345be812b4a3f37335cf7"
+                },
+                "leaderApproval": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "contactedOn": {
+                    "type": "string",
+                    "example": "2002-12-09"
+                },
+                "interviewDate": {
+                    "type": "string",
+                    "example": "2002-12-15"
+                },
+                "interviewed": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "accepted": {
+                    "type": "boolean",
+                    "example": true
+                },
+                "sustainedOn": {
+                    "type": "string",
+                    "example": "2002-12-30"
+                },
+                "setApart": {
+                    "type": "string",
+                    "example": "2002-12-30"
+                },
+                "realeasedOn": {
+                    "type": "string",
+                    "example": "2003-05-09"
+                }
+            },
+            "required": [
+                "memberId",
+                "callingId"
+            ]
+        }
+    }
+}

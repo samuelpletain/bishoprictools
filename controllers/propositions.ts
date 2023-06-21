@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import Proposition from '../models/propositions';
-import Member from '../models/members';
+// import Member from '../models/members';
 
 const propositions = {
   async getAllPropositions(req: Request, res: Response) {
@@ -23,7 +23,7 @@ const propositions = {
 
   async getPropositionById(req: Request, res: Response) {
     // #swagger.summary = "This endpoint returns the details of a single proposition."
-    /*  #swagger.parameters['postId'] = {
+    /*  #swagger.parameters['propositionId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -31,7 +31,7 @@ const propositions = {
     try {
       let id: ObjectId;
       try {
-        id = new ObjectId(req.params.postId);
+        id = new ObjectId(req.params.propositionId);
       } catch (err) {
         /* #swagger.responses[400] = {
               description: 'An invalid MongoDB ObjectId was provided.'
@@ -73,8 +73,8 @@ const propositions = {
           } */
     try {
       const proposition = new Proposition({
-        memberId: req.body.content,
-        callingId: req.body.authorId
+        memberId: req.body.memberId,
+        callingId: req.body.propositionId
       });
       if (req.body.leaderApproval) {
         Object.assign(proposition, { tags: req.body.leaderApproval });
@@ -131,7 +131,7 @@ const propositions = {
               ]
           }] */
     // #swagger.summary = "This endpoint deletes a single proposition."
-    /*  #swagger.parameters['postId'] = {
+    /*  #swagger.parameters['propositionId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -139,7 +139,7 @@ const propositions = {
     try {
       let id: ObjectId;
       try {
-        id = new ObjectId(req.params.postId);
+        id = new ObjectId(req.params.propositionId);
       } catch (err) {
         /* #swagger.responses[400] = {
               description: 'An invalid MongoDB ObjectId was provided.'
@@ -167,7 +167,7 @@ const propositions = {
               ]
           }] */
     // #swagger.summary = "This endpoint updates the content of a single proposition."
-    /*  #swagger.parameters['postId'] = {
+    /*  #swagger.parameters['propositionId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -180,8 +180,8 @@ const propositions = {
           } */
     try {
       const proposition = new Proposition({
-        memberId: req.body.content,
-        callingId: req.body.authorId
+        memberId: req.body.memberId,
+        callingId: req.body.propositionId
       });
       if (req.body.leaderApproval) {
         Object.assign(proposition, { tags: req.body.leaderApproval });
@@ -209,7 +209,7 @@ const propositions = {
       }
       let id: ObjectId;
       try {
-        id = new ObjectId(req.params.postId);
+        id = new ObjectId(req.params.propositionId);
       } catch (err) {
         /* #swagger.responses[400] = {
               description: 'An invalid MongoDB ObjectId was provided.'
@@ -238,6 +238,18 @@ const propositions = {
   },
 
   async getPropositionsByWardId(req: Request, res: Response) {
+    // #swagger.summary = "This endpoint returns all propositions for a given ward."
+    /*  #swagger.parameters['newProposition'] = {
+                  in: 'body',
+                  description: 'An object representing a new proposition',
+                  required: true,
+                  schema: [{ $ref: '#/definitions/Proposition' }]
+          } */
+    /*  #swagger.parameters['wardId'] = {
+            in: 'path',
+            description: 'A MongoDB ObjectId',
+            required: true
+    } */
     try {
       let id: ObjectId;
       try {
@@ -265,6 +277,18 @@ const propositions = {
   },
 
   async getPropositionsByStakeId(req: Request, res: Response) {
+    // #swagger.summary = "This endpoint returns all propositions for a given stake."
+    /*  #swagger.parameters['newProposition'] = {
+                  in: 'body',
+                  description: 'An object representing a new proposition',
+                  required: true,
+                  schema: [{ $ref: '#/definitions/Proposition' }]
+          } */
+    /*  #swagger.parameters['stakeId'] = {
+            in: 'path',
+            description: 'A MongoDB ObjectId',
+            required: true
+    } */
     try {
       let id: ObjectId;
       try {
@@ -289,12 +313,6 @@ const propositions = {
       } */
       res.status(500).json(err);
     }
-  },
-
-  async getPropositionsByOrgId(req: Request, res: Response) {
-  },
-
-  async getPropositionsByCallingId(req: Request, res: Response) {
   }
 };
 
