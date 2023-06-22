@@ -9,7 +9,7 @@
   - [ ] Members @SatoshiKenn
   - [ ] Propositions @samuelpletain
 - [ ] Create models
-  - [ ] Callings @SatoshiKenn
+  -   [ ] Callings @SatoshiKenn
   - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
 - [ ] Create routes

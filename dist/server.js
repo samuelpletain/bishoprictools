@@ -37,6 +37,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || "3000";
 const dbstring = process.env.ATLAS_URI || "";
 const host = process.env.RENDER_EXTERNAL_URL || "http://localhost";
+app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });

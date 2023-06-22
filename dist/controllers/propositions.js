@@ -92,31 +92,31 @@ const propositions = {
             try {
                 const proposition = new propositions_1.default({
                     memberId: req.body.memberId,
-                    callingId: req.body.propositionId
+                    callingId: req.body.callingId
                 });
                 if (req.body.leaderApproval) {
-                    Object.assign(proposition, { tags: req.body.leaderApproval });
+                    Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
                 }
                 if (req.body.contactedOn) {
-                    Object.assign(proposition, { replyTo: req.body.contactedOn });
+                    Object.assign(proposition, { contactedOn: req.body.contactedOn });
                 }
                 if (req.body.interviewDate) {
-                    Object.assign(proposition, { replyTo: req.body.interviewDate });
+                    Object.assign(proposition, { interviewDate: req.body.interviewDate });
                 }
                 if (req.body.interviewed) {
-                    Object.assign(proposition, { replyTo: req.body.interviewed });
+                    Object.assign(proposition, { interviewed: req.body.interviewed });
                 }
                 if (req.body.accepted) {
-                    Object.assign(proposition, { replyTo: req.body.accepted });
+                    Object.assign(proposition, { accepted: req.body.accepted });
                 }
                 if (req.body.sustainedOn) {
-                    Object.assign(proposition, { replyTo: req.body.sustainedOn });
+                    Object.assign(proposition, { sustainedOn: req.body.sustainedOn });
                 }
                 if (req.body.setApart) {
-                    Object.assign(proposition, { replyTo: req.body.setApart });
+                    Object.assign(proposition, { setApart: req.body.setApart });
                 }
                 if (req.body.realeasedOn) {
-                    Object.assign(proposition, { replyTo: req.body.realeasedOn });
+                    Object.assign(proposition, { realeasedOn: req.body.realeasedOn });
                 }
                 const newProposition = yield proposition.save().catch((err) => {
                     /* #swagger.responses[422] = {
@@ -202,34 +202,35 @@ const propositions = {
                           required: true
                   } */
             try {
-                const proposition = new propositions_1.default({
+                const proposition = {
                     memberId: req.body.memberId,
-                    callingId: req.body.propositionId
-                });
+                    callingId: req.body.callingId
+                };
                 if (req.body.leaderApproval) {
-                    Object.assign(proposition, { tags: req.body.leaderApproval });
+                    Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
                 }
                 if (req.body.contactedOn) {
-                    Object.assign(proposition, { replyTo: req.body.contactedOn });
+                    Object.assign(proposition, { contactedOn: req.body.contactedOn });
                 }
                 if (req.body.interviewDate) {
-                    Object.assign(proposition, { replyTo: req.body.interviewDate });
+                    Object.assign(proposition, { interviewDate: req.body.interviewDate });
                 }
                 if (req.body.interviewed) {
-                    Object.assign(proposition, { replyTo: req.body.interviewed });
+                    Object.assign(proposition, { interviewed: req.body.interviewed });
                 }
                 if (req.body.accepted) {
-                    Object.assign(proposition, { replyTo: req.body.accepted });
+                    Object.assign(proposition, { accepted: req.body.accepted });
                 }
                 if (req.body.sustainedOn) {
-                    Object.assign(proposition, { replyTo: req.body.sustainedOn });
+                    Object.assign(proposition, { sustainedOn: req.body.sustainedOn });
                 }
                 if (req.body.setApart) {
-                    Object.assign(proposition, { replyTo: req.body.setApart });
+                    Object.assign(proposition, { setApart: req.body.setApart });
                 }
                 if (req.body.realeasedOn) {
-                    Object.assign(proposition, { replyTo: req.body.realeasedOn });
+                    Object.assign(proposition, { realeasedOn: req.body.realeasedOn });
                 }
+                console.log(proposition);
                 let id;
                 try {
                     id = new mongodb_1.ObjectId(req.params.propositionId);
@@ -252,7 +253,7 @@ const propositions = {
                 /* #swagger.responses[204] = {
                             description: 'The specified proposition has been edited.',
                     } */
-                res.status(204).send();
+                res.status(204).json(proposition);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
