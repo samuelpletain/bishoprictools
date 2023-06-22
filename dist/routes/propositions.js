@@ -26,29 +26,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const dotenv_1 = __importDefault(require("dotenv"));
-const mongoose = __importStar(require("mongoose"));
-const propositions_1 = __importDefault(require("./routes/propositions"));
-const swaggerUi = __importStar(require("swagger-ui-express"));
-const swagger_output_json_1 = __importDefault(require("./swagger-output.json"));
-dotenv_1.default.config();
-const app = (0, express_1.default)();
-const port = process.env.PORT || "3000";
-const dbstring = process.env.ATLAS_URI || "";
-const host = process.env.RENDER_EXTERNAL_URL || "http://localhost";
-app.use(express_1.default.json());
-app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
-});
-app.use('/', propositions_1.default);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger_output_json_1.default));
-mongoose.connect(dbstring).then(() => {
-    console.log('Successfully connected to MongoDB');
-    app.listen(port, () => {
-        console.log(`⚡️[server]: Server is running at ${host}:${port}`);
-    });
-}).catch((err) => {
-    console.log(err);
-    console.log('Not connected to MongoDB');
-});
+const express = __importStar(require("express"));
+const router = express.Router();
+const propositions_1 = __importDefault(require("../controllers/propositions"));
+router
+    .get('/proposition', propositions_1.default.getAllPropositions)
+    .get('/proposition/:propositionId', propositions_1.default.getPropositionById)
+    .post('/proposition', propositions_1.default.createProposition)
+    .put('/proposition/:propositionId', propositions_1.default.updatePropositionById)
+    .delete('/proposition/:propositionId', propositions_1.default.deletePropositionById)
+    .get('/proposition/:wardId', propositions_1.default.getPropositionsByWardId)
+    .get('/proposition/:stakeId', propositions_1.default.getPropositionsByStakeId);
+exports.default = router;
