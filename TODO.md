@@ -7,7 +7,6 @@
   - [ ] Callings @SatoshiKenn
   - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
-  - [ ] Propositions @samuelpletain
 - [ ] Create models
   -   [ ] Callings @SatoshiKenn
   - [ ] Wards @SatoshiKenn
@@ -41,4 +40,5 @@
   - [x] Propositions @samuelpletain
 - [x] Create routes
   - [x] Propositions @samuelpletain
-
+- [x] Create controllers
+  - [x] Propositions @samuelpletain
