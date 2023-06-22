@@ -22,6 +22,171 @@
         }
     },
     "paths": {
+        "/calling": {
+            "get": {
+                "summary": "This endpoint returns a list of all the callings in the database.",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of calling objects."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "summary": "This endpoint creates a calling.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "newCalling",
+                        "in": "body",
+                        "description": "An object representing a new calling",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Calling"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+                        "schema": {
+                            "$ref": "#/definitions/Calling"
+                        }
+                    },
+                    "422": {
+                        "description": "The provided calling object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/calling/{callingId}": {
+            "get": {
+                "summary": "This endpoint returns the details of a single calling.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "callingId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a calling object."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "summary": "This endpoint updates the content of a single calling.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "callingId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "calling",
+                        "in": "body",
+                        "description": "An updated calling object",
+                        "schema": {
+                            "$ref": "#/definitions/Calling"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The specified calling has been edited."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "422": {
+                        "description": "The provided calling object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "This endpoint deletes a single calling.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "callingId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified calling has been deleted."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
         "/proposition": {
             "get": {
                 "summary": "This endpoint returns a list of all the propositions in the database.",
@@ -43,7 +208,14 @@
                     "500": {
                         "description": "An error occured."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
             },
             "post": {
                 "summary": "This endpoint creates a proposition.",
@@ -150,7 +322,14 @@
                     "500": {
                         "description": "An error occured."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
             },
             "put": {
                 "summary": "This endpoint updates the content of a single proposition.",
@@ -262,7 +441,14 @@
                     "500": {
                         "description": "An error occured."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
             }
         },
         "/proposition/{stakeId}": {
@@ -300,7 +486,14 @@
                     "500": {
                         "description": "An error occured."
                     }
-                }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
             }
         }
     },
@@ -352,6 +545,23 @@
             "required": [
                 "memberId",
                 "callingId"
+            ]
+        },
+        "Calling": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Bishop"
+                },
+                "organizationId": {
+                    "type": "string",
+                    "example": "6493923060042c532a58a084"
+                }
+            },
+            "required": [
+                "name",
+                "organizationId"
             ]
         }
     }

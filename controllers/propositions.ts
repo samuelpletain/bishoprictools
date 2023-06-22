@@ -5,6 +5,11 @@ import Proposition from '../models/propositions';
 
 const propositions = {
   async getAllPropositions(req: Request, res: Response) {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint returns a list of all the propositions in the database."
     try {
       const propositions = await Proposition.find() as Proposition[];
@@ -22,6 +27,11 @@ const propositions = {
   },
 
   async getPropositionById(req: Request, res: Response) {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint returns the details of a single proposition."
     /*  #swagger.parameters['propositionId'] = {
                   in: 'path',
@@ -239,6 +249,11 @@ const propositions = {
   },
 
   async getPropositionsByWardId(req: Request, res: Response) {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint returns all propositions for a given ward."
     /*  #swagger.parameters['newProposition'] = {
                   in: 'body',
@@ -278,6 +293,11 @@ const propositions = {
   },
 
   async getPropositionsByStakeId(req: Request, res: Response) {
+    /* #swagger.security = [{
+              "oAuthSample": [
+                  "https://www.googleapis.com/auth/userinfo.profile",
+              ]
+          }] */
     // #swagger.summary = "This endpoint returns all propositions for a given stake."
     /*  #swagger.parameters['newProposition'] = {
                   in: 'body',
