@@ -18,6 +18,11 @@ const callings_1 = __importDefault(require("../models/callings"));
 const callings = {
     getAllCallings(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns a list of all the callings in the database."
             try {
                 const callings = yield callings_1.default.find();
@@ -36,6 +41,11 @@ const callings = {
     },
     getCallingById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns the details of a single calling."
             /*  #swagger.parameters['callingId'] = {
                           in: 'path',
@@ -70,14 +80,23 @@ const callings = {
     },
     createCalling(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
+            // #swagger.summary = "This endpoint creates a calling."
+            /*  #swagger.parameters['newCalling'] = {
+                          in: 'body',
+                          description: 'An object representing a new calling',
+                          required: true,
+                          schema: { $ref: '#/definitions/Calling' }
+                  } */
             try {
                 const calling = new callings_1.default({
-                    callingId: req.body.callingId,
+                    name: req.body.name,
                     organizationId: req.body.organizationId
                 });
-                if (req.body.name) {
-                    Object.assign(calling, { name: req.body.name });
-                }
                 const newCalling = yield calling.save().catch((err) => {
                     /* #swagger.responses[422] = {
                           description: 'The provided calling object does not pass validation.'
@@ -88,10 +107,7 @@ const callings = {
                 });
                 /* #swagger.responses[201] = {
                         description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
-                        schema: {
-                                acknowledged: true,
-                                insertedId: "643f75ca2cec8ebd2a3cc16c"
-                            }
+                        schema: { $ref: '#/definitions/Calling' }
                 } */
                 res.status(201).json(newCalling);
             }
@@ -144,15 +160,28 @@ const callings = {
     },
     updateCallingById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
+            // #swagger.summary = "This endpoint updates the content of a single calling."
+            /*  #swagger.parameters['callingId'] = {
+                          in: 'path',
+                          description: 'A MongoDB ObjectId',
+                          required: true
+                  } */
+            /*  #swagger.parameters['calling'] = {
+                          in: 'body',
+                          description: 'An updated calling object',
+                          schema: { $ref: '#/definitions/Calling' },
+                          required: true
+                  } */
             try {
                 const calling = {
-                    callingId: req.body.callingId,
+                    name: req.body.name,
                     organizationId: req.body.organizationId
                 };
-                if (req.body.name) {
-                    Object.assign(calling, { name: req.body.name });
-                }
-                console.log(calling);
                 let id;
                 try {
                     id = new mongodb_1.ObjectId(req.params.callingId);

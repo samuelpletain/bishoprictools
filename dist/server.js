@@ -30,6 +30,7 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose = __importStar(require("mongoose"));
 const propositions_1 = __importDefault(require("./routes/propositions"));
+const callings_1 = __importDefault(require("./routes/callings"));
 const swaggerUi = __importStar(require("swagger-ui-express"));
 const swagger_output_json_1 = __importDefault(require("./swagger-output.json"));
 dotenv_1.default.config();
@@ -42,6 +43,7 @@ app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 app.use('/', propositions_1.default);
+app.use('/', callings_1.default);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger_output_json_1.default));
 mongoose.connect(dbstring).then(() => {
     console.log('Successfully connected to MongoDB');

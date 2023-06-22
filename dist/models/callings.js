@@ -11,5 +11,5 @@ const callingSchema = new mongoose_1.Schema({
         type: String,
     },
 });
-const Calling = (0, mongoose_1.model)('Proposition', callingSchema);
+const Calling = (0, mongoose_1.model)('Calling', callingSchema);
 module.exports = Calling;

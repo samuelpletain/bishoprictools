@@ -3,7 +3,7 @@ import { Schema, model, ObjectId } from 'mongoose';
 interface Calling {
   callingId: ObjectId
   organizationId: ObjectId
-  name: String
+  name: string
 }
 
 const callingSchema = new Schema<Calling>({
@@ -16,9 +16,9 @@ const callingSchema = new Schema<Calling>({
   name: {
     type: String,
   },
-  
+
 });
 
-const Calling = model<Calling>('Proposition', callingSchema);
+const Calling = model<Calling>('Calling', callingSchema);
 
 export = Calling

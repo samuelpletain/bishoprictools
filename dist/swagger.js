@@ -20,6 +20,10 @@ const doc = {
             setApart: '2002-12-30',
             realeasedOn: '2003-05-09',
         },
+        Calling: {
+            $name: "Bishop",
+            $organizationId: "6493923060042c532a58a084"
+        }
     },
     securityDefinitions: {
         oAuthSample: {
@@ -34,5 +38,5 @@ const doc = {
     }
 };
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./routes/propositions.ts'];
+const endpointsFiles = ['./routes/callings.ts', './routes/propositions.ts'];
 swaggerAutogen()(outputFile, endpointsFiles, doc);

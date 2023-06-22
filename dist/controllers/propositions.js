@@ -18,6 +18,11 @@ const propositions_1 = __importDefault(require("../models/propositions"));
 const propositions = {
     getAllPropositions(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns a list of all the propositions in the database."
             try {
                 const propositions = yield propositions_1.default.find();
@@ -37,6 +42,11 @@ const propositions = {
     },
     getPropositionById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns the details of a single proposition."
             /*  #swagger.parameters['propositionId'] = {
                           in: 'path',
@@ -265,6 +275,11 @@ const propositions = {
     },
     getPropositionsByWardId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns all propositions for a given ward."
             /*  #swagger.parameters['newProposition'] = {
                           in: 'body',
@@ -307,6 +322,11 @@ const propositions = {
     },
     getPropositionsByStakeId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
             // #swagger.summary = "This endpoint returns all propositions for a given stake."
             /*  #swagger.parameters['newProposition'] = {
                           in: 'body',
