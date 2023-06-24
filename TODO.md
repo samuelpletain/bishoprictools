@@ -4,16 +4,10 @@
 - [ ] Create .rest test files @SatoshiKenn
 - [ ] API DOCUMENTATION is complete and available at route ‘/api-docs’ @samuelpletain
 - [ ] Create controllers
-  - [ ] Callings @SatoshiKenn
-  - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
 - [ ] Create models
-  -   [ ] Callings @SatoshiKenn
-  - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
 - [ ] Create routes
-  - [ ] Callings @SatoshiKenn
-  - [ ] Wards @SatoshiKenn
   - [ ] Members @SatoshiKenn
 
 ## Week 11
@@ -38,7 +32,13 @@
 - [x] Create database and collections @samuelpletain
 - [x] Create models
   - [x] Propositions @samuelpletain
+  - [x] Callings @SatoshiKenn
+  - [x] Wards @SatoshiKenn
 - [x] Create routes
   - [x] Propositions @samuelpletain
+  - [x] Callings @SatoshiKenn
+  - [x] Wards @SatoshiKenn
 - [x] Create controllers
+  - [x] Callings @SatoshiKenn
+  - [x] Wards @SatoshiKenn
   - [x] Propositions @samuelpletain
