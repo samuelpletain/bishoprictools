@@ -5,7 +5,7 @@ const doc = {
     title: 'Bishopric Tools API',
     description: 'The Bishopric Tools API is a RESTful API that allows users to interact with a database containing information about ward and stake members and calling propositions. It provides endpoints for creating, retrieving, updating, and deleting wards, stakes, members, and propositions.'
   },
-  host: 'cse341-app2.onrender.com',
+  host: 'bishopric-tools.onrender.com',
   schemes: ['https'],
   definitions: {
     Proposition: {
@@ -23,6 +23,9 @@ const doc = {
     Calling: {
       $name: "Bishop",
       $organizationId: "6493923060042c532a58a084"
+    },
+    Ward: {
+      $name: "Midvale 11th"
     }
   },
   securityDefinitions: {
@@ -39,6 +42,6 @@ const doc = {
 };
 
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./routes/callings.ts', './routes/propositions.ts'];
+const endpointsFiles = ['./routes/callings.ts', './routes/propositions.ts', './routes/wards.ts'];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
