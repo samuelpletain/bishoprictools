@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import Proposition from '../models/propositions';
-// import Member from '../models/members';
+import Member from '../models/members';
 
 const propositions = {
   async getAllPropositions(req: Request, res: Response) {

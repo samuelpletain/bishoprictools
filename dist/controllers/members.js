@@ -13,24 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
-const propositions_1 = __importDefault(require("../models/propositions"));
 const members_1 = __importDefault(require("../models/members"));
-const propositions = {
-    getAllPropositions(req, res) {
+// import Organization from '../models/organizations';
+const members = {
+    getAllMembers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns a list of all the propositions in the database."
+            // #swagger.summary = "This endpoint returns a list of all the members in the database."
             try {
-                const propositions = yield propositions_1.default.find();
+                const members = yield members_1.default.find();
                 /* #swagger.responses[200] = {
-                        description: 'Returns an array of proposition objects.',
-                        schema: [{ $ref: '#/definitions/Proposition' }]
+                        description: 'Returns an array of member objects.'
                 } */
-                res.status(200).json(propositions);
+                res.status(200).json(members);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -40,15 +39,15 @@ const propositions = {
             }
         });
     },
-    getPropositionById(req, res) {
+    getMemberById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns the details of a single proposition."
-            /*  #swagger.parameters['propositionId'] = {
+            // #swagger.summary = "This endpoint returns the details of a single member."
+            /*  #swagger.parameters['wardId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
@@ -56,21 +55,20 @@ const propositions = {
             try {
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.propositionId);
+                    id = new mongodb_1.ObjectId(req.params.memberId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                const proposition = yield propositions_1.default.findOne(id);
+                const member = yield members_1.default.findOne(id);
                 /* #swagger.responses[200] = {
-                        description: 'Returns a proposition object.',
-                        schema: { $ref: '#/definitions/Proposition' },
+                        description: 'Returns a member object.'
                 } */
-                res.status(200).json(proposition);
+                res.status(200).json(member);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -80,57 +78,46 @@ const propositions = {
             }
         });
     },
-    createProposition(req, res) {
+    createMember(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint creates a proposition."
-            /*  #swagger.parameters['newProposition'] = {
+            // #swagger.summary = "This endpoint creates a member."
+            /*  #swagger.parameters['newMember'] = {
                           in: 'body',
-                          description: 'An object representing a new proposition',
+                          description: 'An object representing a new member',
                           required: true,
-                          schema: {
-                            $content: 'Jhon Doe',
-                            $authorId: '6465a918462368509b563b23',
-                            tags: ["Technology", "Innovation", "Programming"],
-                            replyTo: "6465abf6462368509b563b30"
-                          }
+                          schema: { $ref: '#/definitions/Member' }
                   } */
             try {
-                const proposition = new propositions_1.default({
-                    memberId: req.body.memberId,
-                    callingId: req.body.callingId
+                const member = new members_1.default({
+                    wardId: req.body.wardId,
+                    organizationId: req.body.organizationId
                 });
-                if (req.body.leaderApproval) {
-                    Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
+                if (req.body.firstName) {
+                    Object.assign(member, { firstName: req.body.firstName });
                 }
-                if (req.body.contactedOn) {
-                    Object.assign(proposition, { contactedOn: req.body.contactedOn });
+                if (req.body.lastName) {
+                    Object.assign(member, { lastName: req.body.lastName });
                 }
-                if (req.body.interviewDate) {
-                    Object.assign(proposition, { interviewDate: req.body.interviewDate });
+                if (req.body.email) {
+                    Object.assign(member, { email: req.body.email });
                 }
-                if (req.body.interviewed) {
-                    Object.assign(proposition, { interviewed: req.body.interviewed });
+                if (req.body.password) {
+                    Object.assign(member, { password: req.body.password });
                 }
-                if (req.body.accepted) {
-                    Object.assign(proposition, { accepted: req.body.accepted });
+                if (req.body.admin) {
+                    Object.assign(member, { admin: req.body.admin });
                 }
-                if (req.body.sustainedOn) {
-                    Object.assign(proposition, { sustainedOn: req.body.sustainedOn });
+                if (req.body.ageGroup) {
+                    Object.assign(member, { ageGroup: req.body.ageGroup });
                 }
-                if (req.body.setApart) {
-                    Object.assign(proposition, { setApart: req.body.setApart });
-                }
-                if (req.body.realeasedOn) {
-                    Object.assign(proposition, { realeasedOn: req.body.realeasedOn });
-                }
-                const newProposition = yield proposition.save().catch((err) => {
+                const newMember = yield member.save().catch((err) => {
                     /* #swagger.responses[422] = {
-                          description: 'The provided proposition object does not pass validation.'
+                          description: 'The provided member object does not pass validation.'
                   } */
                     res.status(422).json({
                         error: err.message
@@ -138,12 +125,9 @@ const propositions = {
                 });
                 /* #swagger.responses[201] = {
                         description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
-                        schema: {
-                                acknowledged: true,
-                                insertedId: "643f75ca2cec8ebd2a3cc16c"
-                            }
+                        schema: { $ref: '#/definitions/Member' }
                 } */
-                res.status(201).json(newProposition);
+                res.status(201).json(newMember);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -153,15 +137,15 @@ const propositions = {
             }
         });
     },
-    deletePropositionById(req, res) {
+    deleteMemberById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint deletes a single proposition."
-            /*  #swagger.parameters['propositionId'] = {
+            // #swagger.summary = "This endpoint deletes a single member."
+            /*  #swagger.parameters['wardId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
@@ -169,18 +153,18 @@ const propositions = {
             try {
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.propositionId);
+                    id = new mongodb_1.ObjectId(req.params.memberId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                yield propositions_1.default.deleteOne(id);
+                yield members_1.default.deleteOne(id);
                 /* #swagger.responses[200] = {
-                        description: 'The specified proposition has been deleted.',
+                        description: 'The specified member has been deleted.',
                 } */
                 res.status(200).send();
             }
@@ -192,78 +176,71 @@ const propositions = {
             }
         });
     },
-    updatePropositionById(req, res) {
+    updateMemberById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint updates the content of a single proposition."
-            /*  #swagger.parameters['propositionId'] = {
+            // #swagger.summary = "This endpoint updates the content of a single member."
+            /*  #swagger.parameters['wardId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
                   } */
-            /*  #swagger.parameters['proposition'] = {
+            /*  #swagger.parameters['member'] = {
                           in: 'body',
-                          description: 'An updated proposition object',
-                          schema: { $ref: '#/definitions/Proposition' },
+                          description: 'An updated member object',
+                          schema: { $ref: '#/definitions/Member' },
                           required: true
                   } */
             try {
-                const proposition = {
-                    memberId: req.body.memberId,
-                    callingId: req.body.callingId
+                const member = {
+                    wardId: req.body.wardId,
+                    organizationId: req.body.organizationId
                 };
-                if (req.body.leaderApproval) {
-                    Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
+                if (req.body.firstName) {
+                    Object.assign(member, { firstName: req.body.firstName });
                 }
-                if (req.body.contactedOn) {
-                    Object.assign(proposition, { contactedOn: req.body.contactedOn });
+                if (req.body.lastName) {
+                    Object.assign(member, { lastName: req.body.lastName });
                 }
-                if (req.body.interviewDate) {
-                    Object.assign(proposition, { interviewDate: req.body.interviewDate });
+                if (req.body.email) {
+                    Object.assign(member, { email: req.body.email });
                 }
-                if (req.body.interviewed) {
-                    Object.assign(proposition, { interviewed: req.body.interviewed });
+                if (req.body.password) {
+                    Object.assign(member, { password: req.body.password });
                 }
-                if (req.body.accepted) {
-                    Object.assign(proposition, { accepted: req.body.accepted });
+                if (req.body.admin) {
+                    Object.assign(member, { admin: req.body.admin });
                 }
-                if (req.body.sustainedOn) {
-                    Object.assign(proposition, { sustainedOn: req.body.sustainedOn });
+                if (req.body.ageGroup) {
+                    Object.assign(member, { ageGroup: req.body.ageGroup });
                 }
-                if (req.body.setApart) {
-                    Object.assign(proposition, { setApart: req.body.setApart });
-                }
-                if (req.body.realeasedOn) {
-                    Object.assign(proposition, { realeasedOn: req.body.realeasedOn });
-                }
-                console.log(proposition);
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.propositionId);
+                    id = new mongodb_1.ObjectId(req.params.memberId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                yield propositions_1.default.replaceOne({ _id: id }, proposition, { runValidators: true }).catch((err) => {
+                yield members_1.default.replaceOne({ _id: id }, member, { runValidators: true }).catch((err) => {
                     /* #swagger.responses[422] = {
-                          description: 'The provided proposition object does not pass validation.'
+                          description: 'The provided member object does not pass validation.'
                   } */
                     res.status(422).json({
                         error: err.message
                     });
                 });
                 /* #swagger.responses[204] = {
-                            description: 'The specified proposition has been edited.',
+                            description: 'The specified member has been edited.',
                     } */
-                res.status(204).json(proposition);
+                res.status(204).json(member);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -273,19 +250,19 @@ const propositions = {
             }
         });
     },
-    getPropositionsByWardId(req, res) {
+    getMembersByWardId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns all propositions for a given ward."
-            /*  #swagger.parameters['newProposition'] = {
+            // #swagger.summary = "This endpoint returns all members for a given ward."
+            /*  #swagger.parameters['newMember'] = {
                           in: 'body',
-                          description: 'An object representing a new proposition',
+                          description: 'An object representing a new member',
                           required: true,
-                          schema: [{ $ref: '#/definitions/Proposition' }]
+                          schema: [{ $ref: '#/definitions/Member' }]
                   } */
             /*  #swagger.parameters['wardId'] = {
                     in: 'path',
@@ -301,16 +278,16 @@ const propositions = {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid member id.');
                     return;
                 }
                 const memberIds = yield members_1.default.find({ wardId: id }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const members = yield members_1.default.find({
                     memberId: {
                         $in: memberIds
                     }
                 });
-                res.status(200).json(propositions);
+                res.status(200).json(members);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -320,19 +297,19 @@ const propositions = {
             }
         });
     },
-    getPropositionsByStakeId(req, res) {
+    getMembersByStakeId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns all propositions for a given stake."
+            // #swagger.summary = "This endpoint returns all members for a given stake."
             /*  #swagger.parameters['newProposition'] = {
                           in: 'body',
-                          description: 'An object representing a new proposition',
+                          description: 'An object representing a new member',
                           required: true,
-                          schema: [{ $ref: '#/definitions/Proposition' }]
+                          schema: [{ $ref: '#/definitions/Member' }]
                   } */
             /*  #swagger.parameters['stakeId'] = {
                     in: 'path',
@@ -348,16 +325,16 @@ const propositions = {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid member id.');
                     return;
                 }
                 const memberIds = yield members_1.default.find({ stakeId: id }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const members = yield members_1.default.find({
                     memberId: {
                         $in: memberIds
                     }
                 });
-                res.status(200).json(propositions);
+                res.status(200).json(members);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -368,4 +345,4 @@ const propositions = {
         });
     }
 };
-exports.default = propositions;
+exports.default = members;
