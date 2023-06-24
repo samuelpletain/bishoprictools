@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import propositions from './routes/propositions';
 import callings from './routes/callings';
+import wards from './routes/wards';
 import * as swaggerUi from "swagger-ui-express";
 import swaggerDocument from './swagger-output.json';
 
@@ -22,6 +23,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/', propositions);
 
 app.use('/', callings);
+
+app.use('/', wards);
+
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

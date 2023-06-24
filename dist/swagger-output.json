@@ -5,7 +5,7 @@
         "description": "The Bishopric Tools API is a RESTful API that allows users to interact with a database containing information about ward and stake members and calling propositions. It provides endpoints for creating, retrieving, updating, and deleting wards, stakes, members, and propositions.",
         "version": "1.0.0"
     },
-    "host": "cse341-app2.onrender.com",
+    "host": "bishopric-tools.onrender.com",
     "basePath": "/",
     "schemes": [
         "https"
@@ -495,6 +495,171 @@
                     }
                 ]
             }
+        },
+        "/ward": {
+            "get": {
+                "summary": "This endpoint returns a list of all the wards in the database.",
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of ward objects."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "summary": "This endpoint creates a ward.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "newWard",
+                        "in": "body",
+                        "description": "An object representing a new ward",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Ward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+                        "schema": {
+                            "$ref": "#/definitions/Ward"
+                        }
+                    },
+                    "422": {
+                        "description": "The provided ward object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/ward/{wardId}": {
+            "get": {
+                "summary": "This endpoint returns the details of a single ward.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns a ward object."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "put": {
+                "summary": "This endpoint updates the content of a single ward.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "ward",
+                        "in": "body",
+                        "description": "An updated ward object",
+                        "schema": {
+                            "$ref": "#/definitions/Ward"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The specified ward has been edited."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "422": {
+                        "description": "The provided ward object does not pass validation."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "This endpoint deletes a single ward.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The specified ward has been deleted."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "definitions": {
@@ -562,6 +727,18 @@
             "required": [
                 "name",
                 "organizationId"
+            ]
+        },
+        "Ward": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Midvale 11th"
+                }
+            },
+            "required": [
+                "name"
             ]
         }
     }
