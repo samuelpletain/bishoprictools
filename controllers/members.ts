@@ -76,15 +76,9 @@ const members = {
           } */
     try {
       const member = new Member({
-        wardId: req.body.wardId,
-        organizationId: req.body.organizationId
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
       });
-      if (req.body.firstName) {
-        Object.assign(member, { firstName: req.body.firstName });
-      }
-      if (req.body.lastName) {
-        Object.assign(member, { lastName: req.body.lastName });
-      }
       if (req.body.email) {
         Object.assign(member, { email: req.body.email });
       }
@@ -96,6 +90,12 @@ const members = {
       }
       if (req.body.ageGroup) {
         Object.assign(member, { ageGroup: req.body.ageGroup });
+      }
+      if (req.body.wardId) {
+        Object.assign(member, { wardId: req.body.wardId });
+      }
+      if (req.body.organizations) {
+        Object.assign(member, { organizations: req.body.organizations });
       }
       const newMember = await member.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
@@ -174,14 +174,8 @@ const members = {
           } */
     try {
       const member = {
-        wardId: req.body.wardId,
-        organizationId: req.body.organizationId
-      }
-      if (req.body.firstName) {
-        Object.assign(member, { firstName: req.body.firstName });
-      }
-      if (req.body.lastName) {
-        Object.assign(member, { lastName: req.body.lastName });
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
       }
       if (req.body.email) {
         Object.assign(member, { email: req.body.email });
@@ -194,6 +188,12 @@ const members = {
       }
       if (req.body.ageGroup) {
         Object.assign(member, { ageGroup: req.body.ageGroup });
+      }
+      if (req.body.wardId) {
+        Object.assign(member, { wardId: req.body.wardId });
+      }
+      if (req.body.organizations) {
+        Object.assign(member, { organizations: req.body.organizations });
       }
       let id: ObjectId;
       try {
@@ -254,12 +254,7 @@ const members = {
         res.status(400).json('Please provide a valid member id.');
         return;
       }
-      const memberIds = await Member.find({ wardId: id }).distinct('_id');
-      const members = await Member.find({
-        memberId: {
-          $in: memberIds
-        }
-      }) as Member[];
+      const members = await Member.find({ wardId: id }) as Member[];
       res.status(200).json(members);
     } catch (err) {
       /* #swagger.responses[500] = {
@@ -269,49 +264,49 @@ const members = {
     }
   },
 
-  async getMembersByStakeId(req: Request, res: Response) {
-    /* #swagger.security = [{
-              "oAuthSample": [
-                  "https://www.googleapis.com/auth/userinfo.profile",
-              ]
-          }] */
-    // #swagger.summary = "This endpoint returns all members for a given stake."
-    /*  #swagger.parameters['newProposition'] = {
-                  in: 'body',
-                  description: 'An object representing a new member',
-                  required: true,
-                  schema: [{ $ref: '#/definitions/Member' }]
-          } */
-    /*  #swagger.parameters['stakeId'] = {
-            in: 'path',
-            description: 'A MongoDB ObjectId',
-            required: true
-    } */
+  //async getMembersByStakeId(req: Request, res: Response) {
+  /* #swagger.security = [{
+            "oAuthSample": [
+                "https://www.googleapis.com/auth/userinfo.profile",
+            ]
+        }] */
+  // #swagger.summary = "This endpoint returns all members for a given stake."
+  /*  #swagger.parameters['newProposition'] = {
+                in: 'body',
+                description: 'An object representing a new member',
+                required: true,
+                schema: [{ $ref: '#/definitions/Member' }]
+        } */
+  /*  #swagger.parameters['stakeId'] = {
+          in: 'path',
+          description: 'A MongoDB ObjectId',
+          required: true
+  } */
+  /* try {
+    let id: ObjectId;
     try {
-      let id: ObjectId;
-      try {
-        id = new ObjectId(req.params.stakeId);
-      } catch (err) {
-        /* #swagger.responses[400] = {
-              description: 'An invalid MongoDB ObjectId was provided.'
-      } */
-        res.status(400).json('Please provide a valid member id.');
-        return;
-      }
-      const memberIds = await Member.find({ stakeId: id }).distinct('_id');
-      const members = await Member.find({
-        memberId: {
-          $in: memberIds
-        }
-      }) as Member[];
-      res.status(200).json(members);
-    } catch (err) {
-      /* #swagger.responses[500] = {
-              description: 'An error occured.'
-      } */
-      res.status(500).json(err);
-    }
-  }
+      id = new ObjectId(req.params.stakeId);
+    } catch (err) { */
+  /* #swagger.responses[400] = {
+        description: 'An invalid MongoDB ObjectId was provided.'
+} */
+  /*  res.status(400).json('Please provide a valid member id.');
+   return;
+ }
+ const memberIds = await Member.find({ stakeId: id }).distinct('_id');
+ const members = await Member.find({
+   memberId: {
+     $in: memberIds
+   }
+ }) as Member[];
+ res.status(200).json(members);
+} catch (err) { */
+  /* #swagger.responses[500] = {
+          description: 'An error occured.'
+  } */
+  /* res.status(500).json(err);
+}
+} */
 };
 
 export default members;

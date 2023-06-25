@@ -9,7 +9,7 @@ router
   .post('/member', members.createMember)
   .put('/member/:memberId', members.updateMemberById)
   .delete('/member/:memberId', members.deleteMemberById)
-  .get('/member/:wardId', members.getMembersByWardId)
-  .get('/member/:stakeId', members.getMembersByStakeId);
+  .get('/member/ward/:wardId', members.getMembersByWardId);
+//.get('/member/:stakeId', members.getMembersByStakeId);
 
 export default router

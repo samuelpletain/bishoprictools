@@ -1,31 +1,32 @@
 import { Schema, model, ObjectId } from 'mongoose';
 
 interface Member {
-  firstName: String
-  lastName: String
-  email: String
-  password: String
+  firstName: string
+  lastName: string
+  email: string
+  password: string
   admin: boolean
-  ageGroup: String
+  ageGroup: string
   wardId: ObjectId
-  organizationId: ObjectId
+  organizations: ObjectId[]
 }
 
 const memberSchema = new Schema<Member>({
   firstName: {
-    type: Schema.Types.String,
+    type: String,
     required: true
   },
   lastName: {
-    type: Schema.Types.String,
+    type: String,
     required: true
   },
   email: {
-    type: Schema.Types.String,
-    default: null
+    type: String,
+    default: null,
+    unique: true
   },
   password: {
-    type: Schema.Types.String,
+    type: String,
     default: null
   },
   admin: {
@@ -33,17 +34,18 @@ const memberSchema = new Schema<Member>({
     default: false
   },
   ageGroup: {
-    type: Schema.Types.String,
-    default: null
+    type: String,
+    default: 'Adult',
+    enum: ['Adult', 'Youth']
   },
   wardId: {
     type: Schema.Types.ObjectId,
-    default: true
+    default: null
   },
-  organizationId: {
+  organizations: [{
     type: Schema.Types.ObjectId,
-    default: true
-  },
+    default: []
+  }]
 });
 
 const Member = model<Member>('Member', memberSchema);
