@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import propositions from './routes/propositions';
 import callings from './routes/callings';
 import wards from './routes/wards';
+import members from './routes/members';
 import * as swaggerUi from "swagger-ui-express";
 import swaggerDocument from './swagger-output.json';
 
@@ -26,6 +27,7 @@ app.use('/', callings);
 
 app.use('/', wards);
 
+app.use('/', members);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

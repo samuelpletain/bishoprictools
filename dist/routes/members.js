@@ -28,15 +28,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const router = express.Router();
-const propositions_1 = __importDefault(require("../controllers/propositions"));
+const members_1 = __importDefault(require("../controllers/members"));
 router
-    .get('/proposition', propositions_1.default.getAllPropositions)
-    .get('/proposition/:propositionId', propositions_1.default.getPropositionById)
-    .post('/proposition', propositions_1.default.createProposition)
-    .put('/proposition/:propositionId', propositions_1.default.updatePropositionById)
-    .delete('/proposition/:propositionId', propositions_1.default.deletePropositionById)
-    .get('/proposition/ward/:wardId', propositions_1.default.getPropositionsByWardId)
-    .get('/proposition/stake/:stakeId', propositions_1.default.getPropositionsByStakeId)
-    .get('/proposition/ward/:wardId/calling/:callingId', propositions_1.default.getWardPropositionsByCallingId)
-    .get('/proposition/ward/:wardId/organization/:organizationId', propositions_1.default.getWardPropositionsByOrganizationId);
+    .get('/member', members_1.default.getAllMembers)
+    .get('/member/:memberId', members_1.default.getMemberById)
+    .post('/member', members_1.default.createMember)
+    .put('/member/:memberId', members_1.default.updateMemberById)
+    .delete('/member/:memberId', members_1.default.deleteMemberById)
+    .get('/member/ward/:wardId', members_1.default.getMembersByWardId);
+//.get('/member/:stakeId', members.getMembersByStakeId);
 exports.default = router;

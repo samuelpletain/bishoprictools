@@ -8,6 +8,6 @@ router
   .get('/ward/:wardId', wards.getWardById)
   .post('/ward', wards.createWard)
   .put('/ward/:wardId', wards.updateWardById)
-  .delete('/ward/:wardId', wards.deleteWardById)
+  .delete('/ward/:wardId', wards.deleteWardById);
 
 export default router

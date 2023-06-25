@@ -26,6 +26,21 @@ const doc = {
         },
         Ward: {
             $name: "Midvale 11th"
+        },
+        Member: {
+            $firstName: "John",
+            $lastName: "Doe",
+            email: "john.doe@gmail.com",
+            password: "ahashedpassword",
+            admin: true,
+            ageGroup: "Adult",
+            wardId: "6493925960042c532a58a087",
+            organizations: [
+                "649345be812b4a3f37335cf6",
+                "649345be812b4a3f37335cf8",
+                "649345be812b4a3f37335cf9",
+                "649345be812b4a3f37335cfb"
+            ]
         }
     },
     securityDefinitions: {
@@ -41,5 +56,5 @@ const doc = {
     }
 };
 const outputFile = './swagger-output.json';
-const endpointsFiles = ['./routes/callings.ts', './routes/propositions.ts', './routes/wards.ts'];
+const endpointsFiles = ['./routes/callings.ts', './routes/members.ts', './routes/propositions.ts', './routes/wards.ts'];
 swaggerAutogen()(outputFile, endpointsFiles, doc);

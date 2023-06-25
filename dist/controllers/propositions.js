@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const propositions_1 = __importDefault(require("../models/propositions"));
-// import Member from '../models/members';
+const members_1 = __importDefault(require("../models/members"));
+const callings_1 = __importDefault(require("../models/callings"));
 const propositions = {
     getAllPropositions(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -240,7 +241,6 @@ const propositions = {
                 if (req.body.realeasedOn) {
                     Object.assign(proposition, { realeasedOn: req.body.realeasedOn });
                 }
-                console.log(proposition);
                 let id;
                 try {
                     id = new mongodb_1.ObjectId(req.params.propositionId);
@@ -301,10 +301,10 @@ const propositions = {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid proposition id.');
+                    res.status(400).json('Please provide a valid ward id.');
                     return;
                 }
-                const memberIds = yield Member.find({ wardId: id }).distinct('_id');
+                const memberIds = yield members_1.default.find({ wardId: id }).distinct('_id');
                 const propositions = yield propositions_1.default.find({
                     memberId: {
                         $in: memberIds
@@ -351,12 +351,137 @@ const propositions = {
                     res.status(400).json('Please provide a valid proposition id.');
                     return;
                 }
-                const memberIds = yield Member.find({ stakeId: id }).distinct('_id');
+                const memberIds = yield members_1.default.find({ stakeId: id }).distinct('_id');
                 const propositions = yield propositions_1.default.find({
                     memberId: {
                         $in: memberIds
                     }
                 });
+                res.status(200).json(propositions);
+            }
+            catch (err) {
+                /* #swagger.responses[500] = {
+                        description: 'An error occured.'
+                } */
+                res.status(500).json(err);
+            }
+        });
+    },
+    getWardPropositionsByOrganizationId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
+            // #swagger.summary = "This endpoint returns the propositions of a given ward that belongs to a given organization."
+            /*  #swagger.parameters['wardId'] = {
+                          in: 'path',
+                          description: 'A MongoDB ObjectId',
+                          required: true
+                  } */
+            /*  #swagger.parameters['organizationId'] = {
+                    in: 'path',
+                    description: 'A MongoDB ObjectId',
+                    required: true
+            } */
+            try {
+                let wardId;
+                try {
+                    wardId = new mongodb_1.ObjectId(req.params.wardId);
+                }
+                catch (err) {
+                    /* #swagger.responses[400] = {
+                          description: 'An invalid MongoDB ObjectId was provided.'
+                  } */
+                    res.status(400).json('Please provide a valid ward id.');
+                    return;
+                }
+                let orgId;
+                try {
+                    orgId = new mongodb_1.ObjectId(req.params.organizationId);
+                }
+                catch (err) {
+                    /* #swagger.responses[400] = {
+                          description: 'An invalid MongoDB ObjectId was provided.'
+                  } */
+                    res.status(400).json('Please provide a valid organization id.');
+                    return;
+                }
+                const callingIds = yield callings_1.default.find({ organizationId: orgId }).distinct('_id');
+                const memberIds = yield members_1.default.find({ wardId: wardId }).distinct('_id');
+                const propositions = yield propositions_1.default.find({
+                    callingId: {
+                        $in: callingIds
+                    },
+                    memberId: {
+                        $in: memberIds
+                    }
+                });
+                /* #swagger.responses[200] = {
+                        description: 'Returns an array of proposition objects.'
+                } */
+                res.status(200).json(propositions);
+            }
+            catch (err) {
+                /* #swagger.responses[500] = {
+                        description: 'An error occured.'
+                } */
+                res.status(500).json(err);
+            }
+        });
+    },
+    getWardPropositionsByCallingId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                      "oAuthSample": [
+                          "https://www.googleapis.com/auth/userinfo.profile",
+                      ]
+                  }] */
+            // #swagger.summary = "This endpoint returns the propositions of a given ward for a given calling."
+            /*  #swagger.parameters['wardId'] = {
+                          in: 'path',
+                          description: 'A MongoDB ObjectId',
+                          required: true
+                  } */
+            /*  #swagger.parameters['callingId'] = {
+                    in: 'path',
+                    description: 'A MongoDB ObjectId',
+                    required: true
+            } */
+            try {
+                let wardId;
+                try {
+                    wardId = new mongodb_1.ObjectId(req.params.wardId);
+                }
+                catch (err) {
+                    /* #swagger.responses[400] = {
+                          description: 'An invalid MongoDB ObjectId was provided.'
+                  } */
+                    res.status(400).json('Please provide a valid ward id.');
+                    return;
+                }
+                let callingId;
+                try {
+                    callingId = new mongodb_1.ObjectId(req.params.callingId);
+                }
+                catch (err) {
+                    /* #swagger.responses[400] = {
+                          description: 'An invalid MongoDB ObjectId was provided.'
+                  } */
+                    res.status(400).json('Please provide a valid organization id.');
+                    return;
+                }
+                const memberIds = yield members_1.default.find({ wardId: wardId }).distinct('_id');
+                const propositions = yield propositions_1.default.find({
+                    callingId: callingId,
+                    memberId: {
+                        $in: memberIds
+                    }
+                });
+                /* #swagger.responses[200] = {
+                        description: 'Returns an array of proposition objects.'
+                } */
                 res.status(200).json(propositions);
             }
             catch (err) {
