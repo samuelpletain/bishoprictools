@@ -370,7 +370,7 @@
                 ]
             }
         },
-        "/member/{wardId}": {
+        "/member/ward/{wardId}": {
             "get": {
                 "summary": "This endpoint returns all members for a given ward.",
                 "description": "",
@@ -634,7 +634,7 @@
                 ]
             }
         },
-        "/proposition/{wardId}": {
+        "/proposition/ward/{wardId}": {
             "get": {
                 "summary": "This endpoint returns all propositions for a given ward.",
                 "description": "",
@@ -679,7 +679,7 @@
                 ]
             }
         },
-        "/proposition/{stakeId}": {
+        "/proposition/stake/{stakeId}": {
             "get": {
                 "summary": "This endpoint returns all propositions for a given stake.",
                 "description": "",
@@ -707,6 +707,86 @@
                 "responses": {
                     "200": {
                         "description": "OK"
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/proposition/ward/{wardId}/calling/{callingId}": {
+            "get": {
+                "summary": "This endpoint returns the propositions of a given ward for a given calling.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "callingId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of proposition objects."
+                    },
+                    "400": {
+                        "description": "An invalid MongoDB ObjectId was provided."
+                    },
+                    "500": {
+                        "description": "An error occured."
+                    }
+                },
+                "security": [
+                    {
+                        "oAuthSample": [
+                            "https://www.googleapis.com/auth/userinfo.profile"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/proposition/ward/{wardId}/organization/{organizationId}": {
+            "get": {
+                "summary": "This endpoint returns the propositions of a given ward that belongs to a given organization.",
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "wardId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    },
+                    {
+                        "name": "organizationId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "A MongoDB ObjectId"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns an array of proposition objects."
                     },
                     "400": {
                         "description": "An invalid MongoDB ObjectId was provided."
