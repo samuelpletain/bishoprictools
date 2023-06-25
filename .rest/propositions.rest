@@ -41,4 +41,14 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:3000/proposition/649396eb76ba75f9000fc34b HTTP/1.1
+DELETE http://localhost:3000/proposition/649396eb76ba75f9000fc34b HTTP/1.1
+
+###
+GET http://localhost:3000/proposition/ward/6493925960042c532a58a087 HTTP/1.1
+
+
+###
+GET http://localhost:3000/proposition/ward/6493925960042c532a58a087/organization/649345be812b4a3f37335cf6 HTTP/1.1
+
+###
+GET http://localhost:3000/proposition/ward/6493925960042c532a58a087/calling/6497892b726a492433415e1a HTTP/1.1

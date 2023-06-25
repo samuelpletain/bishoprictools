@@ -187,6 +187,234 @@
         ]
       }
     },
+    "/member": {
+      "get": {
+        "summary": "This endpoint returns a list of all the members in the database.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns an array of member objects."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "summary": "This endpoint creates a member.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "newMember",
+            "in": "body",
+            "description": "An object representing a new member",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
+          },
+          "422": {
+            "description": "The provided member object does not pass validation."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/member/{memberId}": {
+      "get": {
+        "summary": "This endpoint returns the details of a single member.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wardId",
+            "in": "path",
+            "description": "A MongoDB ObjectId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a member object."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "This endpoint updates the content of a single member.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wardId",
+            "in": "path",
+            "description": "A MongoDB ObjectId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "member",
+            "in": "body",
+            "description": "An updated member object",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified member has been edited."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "422": {
+            "description": "The provided member object does not pass validation."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "This endpoint deletes a single member.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "wardId",
+            "in": "path",
+            "description": "A MongoDB ObjectId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified member has been deleted."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/member/ward/{wardId}": {
+      "get": {
+        "summary": "This endpoint returns all members for a given ward.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "wardId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "newMember",
+            "in": "body",
+            "description": "An object representing a new member",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Member"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
     "/proposition": {
       "get": {
         "summary": "This endpoint returns a list of all the propositions in the database.",
@@ -406,7 +634,7 @@
         ]
       }
     },
-    "/proposition/{wardId}": {
+    "/proposition/ward/{wardId}": {
       "get": {
         "summary": "This endpoint returns all propositions for a given ward.",
         "description": "",
@@ -451,7 +679,7 @@
         ]
       }
     },
-    "/proposition/{stakeId}": {
+    "/proposition/stake/{stakeId}": {
       "get": {
         "summary": "This endpoint returns all propositions for a given stake.",
         "description": "",
@@ -479,6 +707,86 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/proposition/ward/{wardId}/calling/{callingId}": {
+      "get": {
+        "summary": "This endpoint returns the propositions of a given ward for a given calling.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "wardId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "callingId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of proposition objects."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/proposition/ward/{wardId}/organization/{organizationId}": {
+      "get": {
+        "summary": "This endpoint returns the propositions of a given ward that belongs to a given organization.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "wardId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "organizationId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of proposition objects."
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -739,6 +1047,55 @@
       },
       "required": [
         "name"
+      ]
+    },
+    "Member": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "example": "John"
+        },
+        "lastName": {
+          "type": "string",
+          "example": "Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "ahashedpassword"
+        },
+        "admin": {
+          "type": "boolean",
+          "example": true
+        },
+        "ageGroup": {
+          "type": "string",
+          "example": "Adult"
+        },
+        "wardId": {
+          "type": "string",
+          "example": "6493925960042c532a58a087"
+        },
+        "organizations": {
+          "type": "array",
+          "example": [
+            "649345be812b4a3f37335cf6",
+            "649345be812b4a3f37335cf8",
+            "649345be812b4a3f37335cf9",
+            "649345be812b4a3f37335cfb"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName"
       ]
     }
   }

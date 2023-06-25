@@ -35,6 +35,8 @@ router
     .post('/proposition', propositions_1.default.createProposition)
     .put('/proposition/:propositionId', propositions_1.default.updatePropositionById)
     .delete('/proposition/:propositionId', propositions_1.default.deletePropositionById)
-    .get('/proposition/:wardId', propositions_1.default.getPropositionsByWardId)
-    .get('/proposition/:stakeId', propositions_1.default.getPropositionsByStakeId);
+    .get('/proposition/ward/:wardId', propositions_1.default.getPropositionsByWardId)
+    .get('/proposition/stake/:stakeId', propositions_1.default.getPropositionsByStakeId)
+    .get('/proposition/ward/:wardId/calling/:callingId', propositions_1.default.getWardPropositionsByCallingId)
+    .get('/proposition/ward/:wardId/organization/:organizationId', propositions_1.default.getWardPropositionsByOrganizationId);
 exports.default = router;

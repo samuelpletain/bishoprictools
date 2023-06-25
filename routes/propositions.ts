@@ -9,7 +9,9 @@ router
   .post('/proposition', propositions.createProposition)
   .put('/proposition/:propositionId', propositions.updatePropositionById)
   .delete('/proposition/:propositionId', propositions.deletePropositionById)
-  .get('/proposition/:wardId', propositions.getPropositionsByWardId)
-  .get('/proposition/:stakeId', propositions.getPropositionsByStakeId);
+  .get('/proposition/ward/:wardId', propositions.getPropositionsByWardId)
+  .get('/proposition/stake/:stakeId', propositions.getPropositionsByStakeId)
+  .get('/proposition/ward/:wardId/calling/:callingId', propositions.getWardPropositionsByCallingId)
+  .get('/proposition/ward/:wardId/organization/:organizationId', propositions.getWardPropositionsByOrganizationId);
 
 export default router

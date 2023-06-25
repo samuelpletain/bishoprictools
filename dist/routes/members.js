@@ -35,6 +35,6 @@ router
     .post('/member', members_1.default.createMember)
     .put('/member/:memberId', members_1.default.updateMemberById)
     .delete('/member/:memberId', members_1.default.deleteMemberById)
-    .get('/member/:wardId', members_1.default.getMembersByWardId)
-    .get('/member/:stakeId', members_1.default.getMembersByStakeId);
+    .get('/member/ward/:wardId', members_1.default.getMembersByWardId);
+//.get('/member/:stakeId', members.getMembersByStakeId);
 exports.default = router;

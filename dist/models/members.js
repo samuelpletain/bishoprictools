@@ -2,19 +2,20 @@
 const mongoose_1 = require("mongoose");
 const memberSchema = new mongoose_1.Schema({
     firstName: {
-        type: mongoose_1.Schema.Types.String,
+        type: String,
         required: true
     },
     lastName: {
-        type: mongoose_1.Schema.Types.String,
+        type: String,
         required: true
     },
     email: {
-        type: mongoose_1.Schema.Types.String,
-        default: null
+        type: String,
+        default: null,
+        unique: true
     },
     password: {
-        type: mongoose_1.Schema.Types.String,
+        type: String,
         default: null
     },
     admin: {
@@ -22,17 +23,18 @@ const memberSchema = new mongoose_1.Schema({
         default: false
     },
     ageGroup: {
-        type: mongoose_1.Schema.Types.String,
-        default: null
+        type: String,
+        default: 'Adult',
+        enum: ['Adult', 'Youth']
     },
     wardId: {
         type: mongoose_1.Schema.Types.ObjectId,
-        default: true
+        default: null
     },
-    organizationId: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        default: true
-    },
+    organizations: [{
+            type: mongoose_1.Schema.Types.ObjectId,
+            default: []
+        }]
 });
 const Member = (0, mongoose_1.model)('Member', memberSchema);
 module.exports = Member;
