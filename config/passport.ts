@@ -18,7 +18,7 @@ passport.deserializeUser(async (id: string, done: DoneCallback) => {
 });
 
 passport.use('google', new GoogleStrategy({
-  callbackURL: 'http://localhost:3000/auth/google/redirect',
+  callbackURL: 'https://bishopric-tools.onrender.com/auth/google/redirect',
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   scope: ['profile'],
