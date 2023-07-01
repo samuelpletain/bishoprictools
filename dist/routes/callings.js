@@ -27,12 +27,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const router = express.Router();
 const callings_1 = __importDefault(require("../controllers/callings"));
+const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
+const router = express.Router();
 router
-    .get('/calling', callings_1.default.getAllCallings)
-    .get('/calling/:callingId', callings_1.default.getCallingById)
-    .post('/calling', callings_1.default.createCalling)
-    .put('/calling/:callingId', callings_1.default.updateCallingById)
-    .delete('/calling/:callingId', callings_1.default.deleteCallingById);
+    .get('/calling', authCheck_1.default, callings_1.default.getAllCallings)
+    .get('/calling/:callingId', authCheck_1.default, callings_1.default.getCallingById)
+    .post('/calling', authCheck_1.default, callings_1.default.createCalling)
+    .put('/calling/:callingId', authCheck_1.default, callings_1.default.updateCallingById)
+    .delete('/calling/:callingId', authCheck_1.default, callings_1.default.deleteCallingById);
 exports.default = router;
