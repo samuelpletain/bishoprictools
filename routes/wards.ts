@@ -6,7 +6,7 @@ const router: express.Router = express.Router();
 
 router
   .get('/ward', authCheck, wards.getAllWards)
-  .get('/ward/:wardId', authCheck, wards.getWardById)
+  .get('/ward/:wardId', wards.getWardById)
   .post('/ward', authCheck, wards.createWard)
   .put('/ward/:wardId', authCheck, wards.updateWardById)
   .delete('/ward/:wardId', authCheck, wards.deleteWardById);
