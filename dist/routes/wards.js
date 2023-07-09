@@ -32,7 +32,13 @@ const router = express.Router();
 router
     .get('/ward', wards_1.default.getAllWards)
     .get('/ward/:wardId', wards_1.default.getWardById)
+<<<<<<< HEAD
     .post('/ward', wards_1.default.createWard)
     .put('/ward/:wardId', wards_1.default.updateWardById)
     .delete('/ward/:wardId', wards_1.default.deleteWardById);
+=======
+    .post('/ward', authCheck_1.default, wards_1.default.createWard)
+    .put('/ward/:wardId', authCheck_1.default, wards_1.default.updateWardById)
+    .delete('/ward/:wardId', authCheck_1.default, wards_1.default.deleteWardById);
+>>>>>>> d707f5833c9776f737b59d23a35689c80cc38d97
 exports.default = router;
