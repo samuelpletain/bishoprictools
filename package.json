@@ -4,7 +4,7 @@
   "description": "CSE 341 Final Project - An Express API build with Typescript",
   "main": "dist/server.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/samuelpletain/bishoprictools.git"
   },
-  "author": "Marcos Barrozo, Kennette Guevara & Samuel Pletain",
+  "author": "Kennette Guevara & Samuel Pletain",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/samuelpletain/bishoprictools/issues"

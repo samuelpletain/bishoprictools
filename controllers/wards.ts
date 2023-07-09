@@ -76,14 +76,14 @@ const wards = {
           } */
     try {
       const ward = new Ward({
-        name: req.body.name,
-        wardId: req.body.wardId
+        name: req.body.name
       });
       const newWard = await ward.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided ward object does not pass validation.'
       } */
         res.status(422).json({
+          message: 'The provided ward object does not pass validation.',
           error: err.message
         });
       });
@@ -127,7 +127,7 @@ const wards = {
       /* #swagger.responses[200] = {
               description: 'The specified ward has been deleted.',
       } */
-      res.status(200).send();
+      res.status(200).json();
     } catch (err) {
       /* #swagger.responses[500] = {
               description: 'An error occured.'
@@ -156,8 +156,7 @@ const wards = {
           } */
     try {
       const ward = {
-        name: req.body.name,
-        wardId: req.body.wardId
+        name: req.body.name
       }
       let id: ObjectId;
       try {
@@ -180,7 +179,8 @@ const wards = {
       /* #swagger.responses[204] = {
                   description: 'The specified ward has been edited.',
           } */
-      res.status(204).json(ward);
+      console.log(ward)
+      res.status(204).send();
     } catch (err) {
       /* #swagger.responses[500] = {
               description: 'An error occured.'

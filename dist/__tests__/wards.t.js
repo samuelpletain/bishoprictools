@@ -18,14 +18,59 @@ const wards_1 = __importDefault(require("../routes/wards"));
 const globals_1 = require("@jest/globals");
 server_1.default.use('/', wards_1.default);
 (0, globals_1.describe)('Ward routes', () => {
-    (0, globals_1.test)('responds to /ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = {
-            _id: "6493925960042c532a58a087",
-            name: "Midvale 11th"
-        };
-        const res = yield (0, supertest_1.default)(server_1.default).get('/ward/6493925960042c532a58a087');
+    const newWard = {
+        name: "Midvale 2nd"
+    };
+    let id = "";
+    const newName = "Midvale 3rd";
+    (0, globals_1.test)('responds to POST /ward', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(server_1.default).post('/ward').send(newWard);
+        const ward = JSON.parse(res.text);
+        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(res.statusCode).toBe(201);
+        (0, globals_1.expect)(ward.name).toEqual(newWard.name);
+        id = ward._id;
+    }), 20000);
+    (0, globals_1.test)('responds to GET /ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
+        const error = yield (0, supertest_1.default)(server_1.default).get(`/ward/123`);
+        (0, globals_1.expect)(error.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(error.statusCode).toBe(400);
+        (0, globals_1.expect)(JSON.parse(error.text)).toEqual('Please provide a valid ward id.');
+        const res = yield (0, supertest_1.default)(server_1.default).get(`/ward/${id}`);
         (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
         (0, globals_1.expect)(res.statusCode).toBe(200);
-        (0, globals_1.expect)(JSON.parse(res.text)).toEqual(result);
+        (0, globals_1.expect)(JSON.parse(res.text)).toEqual({
+            name: newWard.name,
+            _id: id,
+            __v: 0
+        });
+    }), 20000);
+    (0, globals_1.test)('responds to PUT /ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
+        const error = yield (0, supertest_1.default)(server_1.default).get(`/ward/123`);
+        (0, globals_1.expect)(error.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(error.statusCode).toBe(400);
+        (0, globals_1.expect)(JSON.parse(error.text)).toEqual('Please provide a valid ward id.');
+        const res = yield (0, supertest_1.default)(server_1.default).put(`/ward/${id}`).send({
+            name: newName
+        });
+        (0, globals_1.expect)(res.statusCode).toBe(204);
+    }), 20000);
+    (0, globals_1.test)('responds to GET /ward', () => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield (0, supertest_1.default)(server_1.default).get('/ward');
+        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(res.statusCode).toBe(200);
+        (0, globals_1.expect)(JSON.parse(res.text)).toEqual(globals_1.expect.arrayContaining([{
+                name: newName,
+                _id: id,
+                __v: 0
+            }]));
+    }), 20000);
+    (0, globals_1.test)('responds to DELETE /ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
+        const error = yield (0, supertest_1.default)(server_1.default).get(`/ward/123`);
+        (0, globals_1.expect)(error.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(error.statusCode).toBe(400);
+        const res = yield (0, supertest_1.default)(server_1.default).delete(`/ward/${id}`);
+        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
+        (0, globals_1.expect)(res.statusCode).toBe(200);
     }), 20000);
 });
