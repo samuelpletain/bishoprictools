@@ -12,7 +12,7 @@ Content-Type: application/json
 
 {
   "organizationId": "649345be812b4a3f37335cf6",
-  "name": "First Counselor"
+  "name": "Second Counselor"
 }
 
 ### Update a calling by ID

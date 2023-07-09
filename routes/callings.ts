@@ -5,10 +5,10 @@ import authCheck from '../middlewares/authCheck';
 const router: express.Router = express.Router();
 
 router
-  .get('/calling', authCheck, callings.getAllCallings)
-  .get('/calling/:callingId', authCheck, callings.getCallingById)
-  .post('/calling', authCheck, callings.createCalling)
-  .put('/calling/:callingId', authCheck, callings.updateCallingById)
-  .delete('/calling/:callingId', authCheck, callings.deleteCallingById)
+  .get('/calling', callings.getAllCallings)
+  .get('/calling/:callingId', callings.getCallingById)
+  .post('/calling', callings.createCalling)
+  .put('/calling/:callingId', callings.updateCallingById)
+  .delete('/calling/:callingId', callings.deleteCallingById)
 
 export default router

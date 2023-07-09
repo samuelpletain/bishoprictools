@@ -31,8 +31,8 @@ const wards_1 = __importDefault(require("../controllers/wards"));
 const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
 const router = express.Router();
 router
-    .get('/ward', authCheck_1.default, wards_1.default.getAllWards)
-    .get('/ward/:wardId', authCheck_1.default, wards_1.default.getWardById)
+    .get('/ward', wards_1.default.getAllWards)
+    .get('/ward/:wardId', wards_1.default.getWardById)
     .post('/ward', authCheck_1.default, wards_1.default.createWard)
     .put('/ward/:wardId', authCheck_1.default, wards_1.default.updateWardById)
     .delete('/ward/:wardId', authCheck_1.default, wards_1.default.deleteWardById);
