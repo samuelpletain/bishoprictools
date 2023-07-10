@@ -1,27 +1,26 @@
 import mongoose from 'mongoose';
 import request from 'supertest';
-import {app, server} from '../server';
+import { app, server } from '../server';
 import { describe, expect, test } from '@jest/globals';
-import Ward from '../models/wards';
-import router from '../routes/wards'
 require('dotenv').config();
 
 const dbstring = process.env.ATLAS_URI || '';
 
 beforeAll(async () => {
-  server.close()
+  jest.setTimeout(60000);
+  server.close();
   await mongoose.connection.close();
-  await mongoose.connect(dbstring)
-})
+  await mongoose.connect(dbstring);
+});
 
-afterAll( async () => {
+afterAll(async () => {
   await mongoose.connection.close();
-  server.close()
+  server.close();
   jest.setTimeout(3000);
 });
 
 describe('Ward routes', () => {
-  const newWard: Ward = {
+  const newWard = {
     name: 'Midvale 2nd',
   };
   let id = '';
