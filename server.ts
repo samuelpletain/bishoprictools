@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import propositions from './routes/propositions';
 import callings from './routes/callings';
 import wards from './routes/wards';
+import stakes from './routes/stakes';
 import members from './routes/members';
 import auth from './routes/auth';
 import * as swaggerUi from "swagger-ui-express";
@@ -51,6 +52,8 @@ app.use('/', propositions);
 app.use('/', callings);
 
 app.use('/', wards);
+
+app.use('/', stakes);
 
 app.use('/', members);
 

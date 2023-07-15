@@ -11,6 +11,6 @@ router
   .put('/member/:memberId', authCheck, members.updateMemberById)
   .delete('/member/:memberId', authCheck, members.deleteMemberById)
   .get('/member/ward/:wardId', authCheck, members.getMembersByWardId);
-//.get('/member/:stakeId', members.getMembersByStakeId);
+  //.get('/member/:stakeId', members.getMembersByStakeId);
 
 export default router
