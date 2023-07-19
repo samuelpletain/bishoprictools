@@ -12,7 +12,13 @@ router
   .delete('/proposition/:propositionId', propositions.deletePropositionById)
   .get('/proposition/ward/:wardId', propositions.getPropositionsByWardId)
   .get('/proposition/stake/:stakeId', propositions.getPropositionsByStakeId)
-  .get('/proposition/ward/:wardId/calling/:callingId', propositions.getWardPropositionsByCallingId)
-  .get('/proposition/ward/:wardId/organization/:organizationId', propositions.getWardPropositionsByOrganizationId);
+  .get(
+    '/proposition/ward/:wardId/calling/:callingId',
+    propositions.getWardPropositionsByCallingId
+  )
+  .get(
+    '/proposition/ward/:wardId/organization/:organizationId',
+    propositions.getWardPropositionsByOrganizationId
+  );
 
-export default router
+export default router;

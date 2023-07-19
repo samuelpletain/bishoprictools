@@ -8,20 +8,26 @@ const dbstring = process.env.ATLAS_URI || '';
 
 beforeAll(async () => {
   jest.setTimeout(60000);
-  server.close();
+  await server.close();
   await mongoose.connection.close();
   await mongoose.connect(dbstring);
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
-  server.close();
+  await server.close();
   jest.setTimeout(3000);
 });
 
 //GetbyId Test
 describe('Calling routes', () => {
-  test('responds to /calling/:callingId', async () => {
+  test('responds to GET /calling', async () => {
+    const res = await request(app).get('/calling');
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /calling/:callingId', async () => {
     const result = {
       _id: '6497892b726a492433415e1a',
       organizationId: '649345be812b4a3f37335cf6',
@@ -35,7 +41,7 @@ describe('Calling routes', () => {
   }, 20000);
 
   //Delete Test
-  test('responds to /calling/:callingId', async () => {
+  test('responds to DELETE /calling/:callingId', async () => {
     const res = await request(app).delete('/calling/64a9ee0d7498b5160bb418b0');
     expect(res.statusCode).toBe(200);
   }, 20000);

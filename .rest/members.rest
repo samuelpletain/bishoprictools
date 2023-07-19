@@ -47,3 +47,6 @@ DELETE http://localhost:3000/member/649715637c55bb9135370539 HTTP/1.1
 
 ###
 GET http://localhost:3000/member/ward/6493925960042c532a58a087 HTTP/1.1
+
+###
+GET http://localhost:3000/member/stake/64b763f9afc286d42818dcf7 HTTP/1.1

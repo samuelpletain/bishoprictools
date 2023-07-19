@@ -27,15 +27,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
-const members_1 = __importDefault(require("../controllers/members"));
+const stakes_1 = __importDefault(require("../controllers/stakes"));
 const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
 const router = express.Router();
 router
-    .get('/member', authCheck_1.default, members_1.default.getAllMembers)
-    .get('/member/:memberId', authCheck_1.default, members_1.default.getMemberById)
-    .post('/member', authCheck_1.default, members_1.default.createMember)
-    .put('/member/:memberId', authCheck_1.default, members_1.default.updateMemberById)
-    .delete('/member/:memberId', authCheck_1.default, members_1.default.deleteMemberById)
-    .get('/member/ward/:wardId', authCheck_1.default, members_1.default.getMembersByWardId)
-    .get('/member/stake/:stakeId', authCheck_1.default, members_1.default.getMembersByStakeId);
+    .get('/stake', authCheck_1.default, stakes_1.default.getAllStakes)
+    .get('/stake/:stakeId', authCheck_1.default, stakes_1.default.getStakeById)
+    .post('/stake', authCheck_1.default, stakes_1.default.createStake)
+    .put('/stake/:stakeId', authCheck_1.default, stakes_1.default.updateStakeById)
+    .delete('/stake/:stakeId', authCheck_1.default, stakes_1.default.deleteStakeById);
 exports.default = router;

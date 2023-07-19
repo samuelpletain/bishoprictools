@@ -13,23 +13,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
-const wards_1 = __importDefault(require("../models/wards"));
+const stakes_1 = __importDefault(require("../models/stakes"));
 // import Organization from '../models/organizations';
-const wards = {
-    getAllWards(req, res, next) {
+const stakes = {
+    getAllStakes(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns a list of all the wards in the database."
+            // #swagger.summary = "This endpoint returns a list of all the stakes in the database."
             try {
-                const wards = (yield wards_1.default.find());
+                const stakes = yield stakes_1.default.find();
                 /* #swagger.responses[200] = {
-                        description: 'Returns an array of ward objects.'
+                        description: 'Returns an array of stake objects.'
                 } */
-                res.status(200).json(wards);
+                res.status(200).json(stakes);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -39,15 +39,15 @@ const wards = {
             }
         });
     },
-    getWardById(req, res) {
+    getStakeById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint returns the details of a single ward."
-            /*  #swagger.parameters['wardId'] = {
+            // #swagger.summary = "This endpoint returns the details of a single stake."
+            /*  #swagger.parameters['stakeId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
@@ -55,20 +55,20 @@ const wards = {
             try {
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.wardId);
+                    id = new mongodb_1.ObjectId(req.params.stakeId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid ward id.');
+                    res.status(400).json('Please provide a valid stake id.');
                     return;
                 }
-                const ward = (yield wards_1.default.findOne(id));
+                const stake = yield stakes_1.default.findOne(id);
                 /* #swagger.responses[200] = {
-                        description: 'Returns a ward object.'
+                        description: 'Returns a stake object.'
                 } */
-                res.status(200).json(ward);
+                res.status(200).json(stake);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -78,39 +78,38 @@ const wards = {
             }
         });
     },
-    createWard(req, res) {
+    createStake(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint creates a ward."
-            /*  #swagger.parameters['newWard'] = {
+            // #swagger.summary = "This endpoint creates a stake."
+            /*  #swagger.parameters['newStake'] = {
                           in: 'body',
-                          description: 'An object representing a new ward',
+                          description: 'An object representing a new stake',
                           required: true,
-                          schema: { $ref: '#/definitions/Ward' }
+                          schema: { $ref: '#/definitions/Stake' }
                   } */
             try {
-                const ward = new wards_1.default({
+                const stake = new stakes_1.default({
                     name: req.body.name,
-                    stakeId: req.body.stakeId,
+                    stakeId: req.body.stakeId
                 });
-                const newWard = yield ward.save().catch((err) => {
+                const newStake = yield stake.save().catch((err) => {
                     /* #swagger.responses[422] = {
-                          description: 'The provided ward object does not pass validation.'
+                          description: 'The provided stake object does not pass validation.'
                   } */
                     res.status(422).json({
-                        message: 'The provided ward object does not pass validation.',
-                        error: err.message,
+                        error: err.message
                     });
                 });
                 /* #swagger.responses[201] = {
                         description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
-                        schema: { $ref: '#/definitions/Ward' }
+                        schema: { $ref: '#/definitions/Stake' }
                 } */
-                res.status(201).json(newWard);
+                res.status(201).json(newStake);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -120,15 +119,15 @@ const wards = {
             }
         });
     },
-    deleteWardById(req, res) {
+    deleteStakeById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint deletes a single ward."
-            /*  #swagger.parameters['wardId'] = {
+            // #swagger.summary = "This endpoint deletes a single stake."
+            /*  #swagger.parameters['stakeId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
@@ -136,20 +135,20 @@ const wards = {
             try {
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.wardId);
+                    id = new mongodb_1.ObjectId(req.params.stakeId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid ward id.');
+                    res.status(400).json('Please provide a valid stake id.');
                     return;
                 }
-                yield wards_1.default.deleteOne(id);
+                yield stakes_1.default.deleteOne(id);
                 /* #swagger.responses[200] = {
-                        description: 'The specified ward has been deleted.',
+                        description: 'The specified stake has been deleted.',
                 } */
-                res.status(200).json();
+                res.status(200).send();
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -159,53 +158,53 @@ const wards = {
             }
         });
     },
-    updateWardById(req, res) {
+    updateStakeById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             /* #swagger.security = [{
                       "oAuthSample": [
                           "https://www.googleapis.com/auth/userinfo.profile",
                       ]
                   }] */
-            // #swagger.summary = "This endpoint updates the content of a single ward."
-            /*  #swagger.parameters['wardId'] = {
+            // #swagger.summary = "This endpoint updates the content of a single stake."
+            /*  #swagger.parameters['stakeId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true
                   } */
-            /*  #swagger.parameters['ward'] = {
+            /*  #swagger.parameters['stake'] = {
                           in: 'body',
-                          description: 'An updated ward object',
-                          schema: { $ref: '#/definitions/Ward' },
+                          description: 'An updated stake object',
+                          schema: { $ref: '#/definitions/Stake' },
                           required: true
                   } */
             try {
-                const ward = {
+                const stake = {
                     name: req.body.name,
-                    stakeId: req.body.stakeId,
+                    stakeId: req.body.stakeId
                 };
                 let id;
                 try {
-                    id = new mongodb_1.ObjectId(req.params.wardId);
+                    id = new mongodb_1.ObjectId(req.params.stakeId);
                 }
                 catch (err) {
                     /* #swagger.responses[400] = {
                           description: 'An invalid MongoDB ObjectId was provided.'
                   } */
-                    res.status(400).json('Please provide a valid ward id.');
+                    res.status(400).json('Please provide a valid stake id.');
                     return;
                 }
-                yield wards_1.default.replaceOne({ _id: id }, ward, { runValidators: true }).catch((err) => {
+                yield stakes_1.default.replaceOne({ _id: id }, stake, { runValidators: true }).catch((err) => {
                     /* #swagger.responses[422] = {
-                        description: 'The provided ward object does not pass validation.'
-                } */
+                          description: 'The provided stake object does not pass validation.'
+                  } */
                     res.status(422).json({
-                        error: err.message,
+                        error: err.message
                     });
                 });
                 /* #swagger.responses[204] = {
-                            description: 'The specified ward has been edited.',
+                            description: 'The specified stake has been edited.',
                     } */
-                res.status(204).send();
+                res.status(204).json(stake);
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -216,4 +215,4 @@ const wards = {
         });
     },
 };
-exports.default = wards;
+exports.default = stakes;
