@@ -8,6 +8,7 @@ interface Member {
   admin: boolean
   ageGroup: string
   wardId: ObjectId
+  //stakeId: ObjectId
   organizations: ObjectId[]
 }
 
@@ -41,7 +42,11 @@ const memberSchema = new Schema<Member>({
   wardId: {
     type: Schema.Types.ObjectId,
     default: null
-  },
+  },/*
+  stakeId: {
+    type: Schema.Types.ObjectId,
+    default: null
+  },*/
   organizations: [{
     type: Schema.Types.ObjectId,
     default: []
