@@ -1,5 +1,5 @@
 import * as express from 'express';
-import wards from '../controllers/wards'
+import wards from '../controllers/wards';
 import authCheck from '../middlewares/authCheck';
 
 const router: express.Router = express.Router();
@@ -11,4 +11,4 @@ router
   .put('/ward/:wardId', authCheck, wards.updateWardById)
   .delete('/ward/:wardId', authCheck, wards.deleteWardById);
 
-export default router
+export default router;

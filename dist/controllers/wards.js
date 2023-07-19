@@ -25,7 +25,7 @@ const wards = {
                   }] */
             // #swagger.summary = "This endpoint returns a list of all the wards in the database."
             try {
-                const wards = yield wards_1.default.find();
+                const wards = (yield wards_1.default.find());
                 /* #swagger.responses[200] = {
                         description: 'Returns an array of ward objects.'
                 } */
@@ -64,7 +64,7 @@ const wards = {
                     res.status(400).json('Please provide a valid ward id.');
                     return;
                 }
-                const ward = yield wards_1.default.findOne(id);
+                const ward = (yield wards_1.default.findOne(id));
                 /* #swagger.responses[200] = {
                         description: 'Returns a ward object.'
                 } */
@@ -95,14 +95,15 @@ const wards = {
             try {
                 const ward = new wards_1.default({
                     name: req.body.name,
-                    wardId: req.body.wardId
+                    stakeId: req.body.stakeId,
                 });
                 const newWard = yield ward.save().catch((err) => {
                     /* #swagger.responses[422] = {
                           description: 'The provided ward object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        message: 'The provided ward object does not pass validation.',
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[201] = {
@@ -148,7 +149,7 @@ const wards = {
                 /* #swagger.responses[200] = {
                         description: 'The specified ward has been deleted.',
                 } */
-                res.status(200).send();
+                res.status(200).json();
             }
             catch (err) {
                 /* #swagger.responses[500] = {
@@ -180,7 +181,7 @@ const wards = {
             try {
                 const ward = {
                     name: req.body.name,
-                    wardId: req.body.wardId
+                    stakeId: req.body.stakeId,
                 };
                 let id;
                 try {
@@ -195,16 +196,16 @@ const wards = {
                 }
                 yield wards_1.default.replaceOne({ _id: id }, ward, { runValidators: true }).catch((err) => {
                     /* #swagger.responses[422] = {
-                          description: 'The provided ward object does not pass validation.'
-                  } */
+                        description: 'The provided ward object does not pass validation.'
+                } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[204] = {
                             description: 'The specified ward has been edited.',
                     } */
-                res.status(204).json(ward);
+                res.status(204).send();
             }
             catch (err) {
                 /* #swagger.responses[500] = {

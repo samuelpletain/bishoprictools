@@ -26,12 +26,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.server = exports.app = void 0;
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const mongoose = __importStar(require("mongoose"));
+const mongoose_1 = __importDefault(require("mongoose"));
 const propositions_1 = __importDefault(require("./routes/propositions"));
 const callings_1 = __importDefault(require("./routes/callings"));
 const wards_1 = __importDefault(require("./routes/wards"));
+const stakes_1 = __importDefault(require("./routes/stakes"));
 const members_1 = __importDefault(require("./routes/members"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const swaggerUi = __importStar(require("swagger-ui-express"));
@@ -40,14 +42,15 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-const port = process.env.PORT || "3000";
-const dbstring = process.env.ATLAS_URI || "";
-const host = process.env.RENDER_EXTERNAL_URL || "http://localhost";
+exports.app = app;
+const port = process.env.PORT || '3000';
+const dbstring = process.env.ATLAS_URI || '';
+const host = process.env.RENDER_EXTERNAL_URL || 'http://localhost';
 app.set('trust proxy', 1);
 app.use(cookieSession({
     name: 'session',
     maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_KEY]
+    keys: [process.env.COOKIE_KEY],
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -59,22 +62,26 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swagger_output_json_1.defa
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     next();
 });
 app.use('/', propositions_1.default);
 app.use('/', callings_1.default);
 app.use('/', wards_1.default);
+app.use('/', stakes_1.default);
 app.use('/', members_1.default);
 app.use('/', auth_1.default);
-mongoose.connect(dbstring).then(() => {
+mongoose_1.default
+    .connect(dbstring)
+    .then(() => {
     console.log('Successfully connected to MongoDB');
-    app.listen(port, () => {
-        console.log(`⚡️[server]: Server is running at ${host}:${port}`);
-    });
-}).catch((err) => {
+})
+    .catch((err) => {
     console.log(err);
     console.log('Not connected to MongoDB');
 });
-exports.default = app;
+const server = app.listen(port, () => {
+    console.log(`⚡️[server]: Server is running at ${host}:${port}`);
+});
+exports.server = server;

@@ -12,7 +12,7 @@ const wards = {
           }] */
     // #swagger.summary = "This endpoint returns a list of all the wards in the database."
     try {
-      const wards = await Ward.find() as Ward[];
+      const wards = (await Ward.find()) as Ward[];
       /* #swagger.responses[200] = {
               description: 'Returns an array of ward objects.'
       } */
@@ -48,7 +48,7 @@ const wards = {
         res.status(400).json('Please provide a valid ward id.');
         return;
       }
-      const ward = await Ward.findOne(id) as Ward;
+      const ward = (await Ward.findOne(id)) as Ward;
       /* #swagger.responses[200] = {
               description: 'Returns a ward object.'
       } */
@@ -77,14 +77,15 @@ const wards = {
     try {
       const ward = new Ward({
         name: req.body.name,
-        wardId: req.body.wardId
+        stakeId: req.body.stakeId,
       });
       const newWard = await ward.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided ward object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          message: 'The provided ward object does not pass validation.',
+          error: err.message,
         });
       });
       /* #swagger.responses[201] = {
@@ -127,7 +128,7 @@ const wards = {
       /* #swagger.responses[200] = {
               description: 'The specified ward has been deleted.',
       } */
-      res.status(200).send();
+      res.status(200).json();
     } catch (err) {
       /* #swagger.responses[500] = {
               description: 'An error occured.'
@@ -157,8 +158,8 @@ const wards = {
     try {
       const ward = {
         name: req.body.name,
-        wardId: req.body.wardId
-      }
+        stakeId: req.body.stakeId,
+      };
       let id: ObjectId;
       try {
         id = new ObjectId(req.params.wardId);
@@ -169,18 +170,20 @@ const wards = {
         res.status(400).json('Please provide a valid ward id.');
         return;
       }
-      await Ward.replaceOne({ _id: id }, ward, { runValidators: true }).catch((err: Error) => {
-        /* #swagger.responses[422] = {
+      await Ward.replaceOne({ _id: id }, ward, { runValidators: true }).catch(
+        (err: Error) => {
+          /* #swagger.responses[422] = {
               description: 'The provided ward object does not pass validation.'
       } */
-        res.status(422).json({
-          error: err.message
-        });
-      });
+          res.status(422).json({
+            error: err.message,
+          });
+        }
+      );
       /* #swagger.responses[204] = {
                   description: 'The specified ward has been edited.',
           } */
-      res.status(204).json(ward);
+      res.status(204).send();
     } catch (err) {
       /* #swagger.responses[500] = {
               description: 'An error occured.'

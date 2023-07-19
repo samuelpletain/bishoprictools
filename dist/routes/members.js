@@ -28,14 +28,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const members_1 = __importDefault(require("../controllers/members"));
-const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
 const router = express.Router();
 router
-    .get('/member', authCheck_1.default, members_1.default.getAllMembers)
-    .get('/member/:memberId', authCheck_1.default, members_1.default.getMemberById)
-    .post('/member', authCheck_1.default, members_1.default.createMember)
-    .put('/member/:memberId', authCheck_1.default, members_1.default.updateMemberById)
-    .delete('/member/:memberId', authCheck_1.default, members_1.default.deleteMemberById)
-    .get('/member/ward/:wardId', authCheck_1.default, members_1.default.getMembersByWardId);
-//.get('/member/:stakeId', members.getMembersByStakeId);
+    .get('/member', members_1.default.getAllMembers)
+    .get('/member/:memberId', members_1.default.getMemberById)
+    .post('/member', members_1.default.createMember)
+    .put('/member/:memberId', members_1.default.updateMemberById)
+    .delete('/member/:memberId', members_1.default.deleteMemberById)
+    .get('/member/ward/:wardId', members_1.default.getMembersByWardId)
+    .get('/member/stake/:stakeId', members_1.default.getMembersByStakeId);
 exports.default = router;

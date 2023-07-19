@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 import Proposition from '../models/propositions';
 import Member from '../models/members';
 import Calling from '../models/callings';
+import Ward from '../models/wards';
 
 const propositions = {
   async getAllPropositions(req: Request, res: Response) {
@@ -13,7 +14,7 @@ const propositions = {
           }] */
     // #swagger.summary = "This endpoint returns a list of all the propositions in the database."
     try {
-      const propositions = await Proposition.find() as Proposition[];
+      const propositions = (await Proposition.find()) as Proposition[];
       /* #swagger.responses[200] = {
               description: 'Returns an array of proposition objects.',
               schema: [{ $ref: '#/definitions/Proposition' }]
@@ -50,7 +51,7 @@ const propositions = {
         res.status(400).json('Please provide a valid proposition id.');
         return;
       }
-      const proposition = await Proposition.findOne(id) as Proposition;
+      const proposition = (await Proposition.findOne(id)) as Proposition;
       /* #swagger.responses[200] = {
               description: 'Returns a proposition object.',
               schema: { $ref: '#/definitions/Proposition' },
@@ -85,7 +86,7 @@ const propositions = {
     try {
       const proposition = new Proposition({
         memberId: req.body.memberId,
-        callingId: req.body.callingId
+        callingId: req.body.callingId,
       });
       if (req.body.leaderApproval) {
         Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
@@ -116,7 +117,7 @@ const propositions = {
               description: 'The provided proposition object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          error: err.message,
         });
       });
       /* #swagger.responses[201] = {
@@ -192,8 +193,8 @@ const propositions = {
     try {
       const proposition = {
         memberId: req.body.memberId,
-        callingId: req.body.callingId
-      }
+        callingId: req.body.callingId,
+      };
       if (req.body.leaderApproval) {
         Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
       }
@@ -228,12 +229,14 @@ const propositions = {
         res.status(400).json('Please provide a valid proposition id.');
         return;
       }
-      await Proposition.replaceOne({ _id: id }, proposition, { runValidators: true }).catch((err: Error) => {
+      await Proposition.replaceOne({ _id: id }, proposition, {
+        runValidators: true,
+      }).catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided proposition object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          error: err.message,
         });
       });
       /* #swagger.responses[204] = {
@@ -278,11 +281,11 @@ const propositions = {
         return;
       }
       const memberIds = await Member.find({ wardId: id }).distinct('_id');
-      const propositions = await Proposition.find({
+      const propositions = (await Proposition.find({
         memberId: {
-          $in: memberIds
-        }
-      }) as Proposition[];
+          $in: memberIds,
+        },
+      })) as Proposition[];
       res.status(200).json(propositions);
     } catch (err) {
       /* #swagger.responses[500] = {
@@ -321,12 +324,19 @@ const propositions = {
         res.status(400).json('Please provide a valid proposition id.');
         return;
       }
-      const memberIds = await Member.find({ stakeId: id }).distinct('_id');
-      const propositions = await Proposition.find({
+      const wardIds = await Ward.find({
+        stakeId: id,
+      }).distinct('_id');
+      const memberIds = await Member.find({
+        wardId: {
+          $in: wardIds,
+        },
+      }).distinct('_id');
+      const propositions = (await Proposition.find({
         memberId: {
-          $in: memberIds
-        }
-      }) as Proposition[];
+          $in: memberIds,
+        },
+      })) as Proposition[];
       res.status(200).json(propositions);
     } catch (err) {
       /* #swagger.responses[500] = {
@@ -374,16 +384,18 @@ const propositions = {
         res.status(400).json('Please provide a valid organization id.');
         return;
       }
-      const callingIds = await Calling.find({ organizationId: orgId }).distinct('_id');
+      const callingIds = await Calling.find({ organizationId: orgId }).distinct(
+        '_id'
+      );
       const memberIds = await Member.find({ wardId: wardId }).distinct('_id');
-      const propositions = await Proposition.find({
+      const propositions = (await Proposition.find({
         callingId: {
-          $in: callingIds
+          $in: callingIds,
         },
         memberId: {
-          $in: memberIds
-        }
-      }) as Proposition[];
+          $in: memberIds,
+        },
+      })) as Proposition[];
       /* #swagger.responses[200] = {
               description: 'Returns an array of proposition objects.'
       } */
@@ -435,12 +447,12 @@ const propositions = {
         return;
       }
       const memberIds = await Member.find({ wardId: wardId }).distinct('_id');
-      const propositions = await Proposition.find({
+      const propositions = (await Proposition.find({
         callingId: callingId,
         memberId: {
-          $in: memberIds
-        }
-      }) as Proposition[];
+          $in: memberIds,
+        },
+      })) as Proposition[];
       /* #swagger.responses[200] = {
               description: 'Returns an array of proposition objects.'
       } */
@@ -451,7 +463,7 @@ const propositions = {
       } */
       res.status(500).json(err);
     }
-  }
+  },
 };
 
 export default propositions;
