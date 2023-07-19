@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = require("mongodb");
 const members_1 = __importDefault(require("../models/members"));
-// import Organization from '../models/organizations';
+const wards_1 = __importDefault(require("../models/wards"));
 const members = {
     getAllMembers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,7 +25,7 @@ const members = {
                   }] */
             // #swagger.summary = "This endpoint returns a list of all the members in the database."
             try {
-                const members = yield members_1.default.find();
+                const members = (yield members_1.default.find());
                 /* #swagger.responses[200] = {
                         description: 'Returns an array of member objects.'
                 } */
@@ -64,7 +64,7 @@ const members = {
                     res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                const member = yield members_1.default.findOne(id);
+                const member = (yield members_1.default.findOne(id));
                 /* #swagger.responses[200] = {
                         description: 'Returns a member object.'
                 } */
@@ -95,7 +95,7 @@ const members = {
             try {
                 const member = new members_1.default({
                     firstName: req.body.firstName,
-                    lastName: req.body.lastName
+                    lastName: req.body.lastName,
                 });
                 if (req.body.email) {
                     Object.assign(member, { email: req.body.email });
@@ -120,7 +120,7 @@ const members = {
                           description: 'The provided member object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[201] = {
@@ -198,7 +198,7 @@ const members = {
             try {
                 const member = {
                     firstName: req.body.firstName,
-                    lastName: req.body.lastName
+                    lastName: req.body.lastName,
                 };
                 if (req.body.email) {
                     Object.assign(member, { email: req.body.email });
@@ -229,12 +229,14 @@ const members = {
                     res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                yield members_1.default.replaceOne({ _id: id }, member, { runValidators: true }).catch((err) => {
+                yield members_1.default.replaceOne({ _id: id }, member, {
+                    runValidators: true,
+                }).catch((err) => {
                     /* #swagger.responses[422] = {
                           description: 'The provided member object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[204] = {
@@ -281,7 +283,7 @@ const members = {
                     res.status(400).json('Please provide a valid member id.');
                     return;
                 }
-                const members = yield members_1.default.find({ wardId: id });
+                const members = (yield members_1.default.find({ wardId: id }));
                 res.status(200).json(members);
             }
             catch (err) {
@@ -292,48 +294,55 @@ const members = {
             }
         });
     },
-    //async getMembersByStakeId(req: Request, res: Response) {
-    /* #swagger.security = [{
-              "oAuthSample": [
-                  "https://www.googleapis.com/auth/userinfo.profile",
-              ]
-          }] */
-    // #swagger.summary = "This endpoint returns all members for a given stake."
-    /*  #swagger.parameters['newProposition'] = {
-                  in: 'body',
-                  description: 'An object representing a new member',
-                  required: true,
-                  schema: [{ $ref: '#/definitions/Member' }]
+    getMembersByStakeId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            /* #swagger.security = [{
+                    "oAuthSample": [
+                        "https://www.googleapis.com/auth/userinfo.profile",
+                    ]
+                }] */
+            // #swagger.summary = "This endpoint returns all members for a given stake."
+            /*  #swagger.parameters['newProposition'] = {
+                        in: 'body',
+                        description: 'An object representing a new member',
+                        required: true,
+                        schema: [{ $ref: '#/definitions/Member' }]
+                } */
+            /*  #swagger.parameters['stakeId'] = {
+                  in: 'path',
+                  description: 'A MongoDB ObjectId',
+                  required: true
           } */
-    /*  #swagger.parameters['stakeId'] = {
-            in: 'path',
-            description: 'A MongoDB ObjectId',
-            required: true
-    } */
-    /* try {
-      let id: ObjectId;
-      try {
-        id = new ObjectId(req.params.stakeId);
-      } catch (err) { */
-    /* #swagger.responses[400] = {
-          description: 'An invalid MongoDB ObjectId was provided.'
-  } */
-    /*  res.status(400).json('Please provide a valid member id.');
-     return;
-   }
-   const memberIds = await Member.find({ stakeId: id }).distinct('_id');
-   const members = await Member.find({
-     memberId: {
-       $in: memberIds
-     }
-   }) as Member[];
-   res.status(200).json(members);
-  } catch (err) { */
-    /* #swagger.responses[500] = {
-            description: 'An error occured.'
-    } */
-    /* res.status(500).json(err);
-  }
-  } */
+            try {
+                let id;
+                try {
+                    id = new mongodb_1.ObjectId(req.params.stakeId);
+                }
+                catch (err) {
+                    /* #swagger.responses[400] = {
+                    description: 'An invalid MongoDB ObjectId was provided.'
+            } */
+                    res.status(400).json('Please provide a valid member id.');
+                    return;
+                }
+                const wardIds = yield wards_1.default.find({
+                    stakeId: id,
+                }).distinct('_id');
+                console.log();
+                const members = (yield members_1.default.find({
+                    wardId: {
+                        $in: wardIds,
+                    },
+                }));
+                res.status(200).json(members);
+            }
+            catch (err) {
+                /* #swagger.responses[500] = {
+                    description: 'An error occured.'
+            } */
+                res.status(500).json(err);
+            }
+        });
+    },
 };
 exports.default = members;

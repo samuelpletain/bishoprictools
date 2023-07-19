@@ -16,6 +16,7 @@ const mongodb_1 = require("mongodb");
 const propositions_1 = __importDefault(require("../models/propositions"));
 const members_1 = __importDefault(require("../models/members"));
 const callings_1 = __importDefault(require("../models/callings"));
+const wards_1 = __importDefault(require("../models/wards"));
 const propositions = {
     getAllPropositions(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -26,7 +27,7 @@ const propositions = {
                   }] */
             // #swagger.summary = "This endpoint returns a list of all the propositions in the database."
             try {
-                const propositions = yield propositions_1.default.find();
+                const propositions = (yield propositions_1.default.find());
                 /* #swagger.responses[200] = {
                         description: 'Returns an array of proposition objects.',
                         schema: [{ $ref: '#/definitions/Proposition' }]
@@ -66,7 +67,7 @@ const propositions = {
                     res.status(400).json('Please provide a valid proposition id.');
                     return;
                 }
-                const proposition = yield propositions_1.default.findOne(id);
+                const proposition = (yield propositions_1.default.findOne(id));
                 /* #swagger.responses[200] = {
                         description: 'Returns a proposition object.',
                         schema: { $ref: '#/definitions/Proposition' },
@@ -103,7 +104,7 @@ const propositions = {
             try {
                 const proposition = new propositions_1.default({
                     memberId: req.body.memberId,
-                    callingId: req.body.callingId
+                    callingId: req.body.callingId,
                 });
                 if (req.body.leaderApproval) {
                     Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
@@ -134,7 +135,7 @@ const propositions = {
                           description: 'The provided proposition object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[201] = {
@@ -215,7 +216,7 @@ const propositions = {
             try {
                 const proposition = {
                     memberId: req.body.memberId,
-                    callingId: req.body.callingId
+                    callingId: req.body.callingId,
                 };
                 if (req.body.leaderApproval) {
                     Object.assign(proposition, { leaderApproval: req.body.leaderApproval });
@@ -252,12 +253,14 @@ const propositions = {
                     res.status(400).json('Please provide a valid proposition id.');
                     return;
                 }
-                yield propositions_1.default.replaceOne({ _id: id }, proposition, { runValidators: true }).catch((err) => {
+                yield propositions_1.default.replaceOne({ _id: id }, proposition, {
+                    runValidators: true,
+                }).catch((err) => {
                     /* #swagger.responses[422] = {
                           description: 'The provided proposition object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[204] = {
@@ -305,11 +308,11 @@ const propositions = {
                     return;
                 }
                 const memberIds = yield members_1.default.find({ wardId: id }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const propositions = (yield propositions_1.default.find({
                     memberId: {
-                        $in: memberIds
-                    }
-                });
+                        $in: memberIds,
+                    },
+                }));
                 res.status(200).json(propositions);
             }
             catch (err) {
@@ -351,12 +354,19 @@ const propositions = {
                     res.status(400).json('Please provide a valid proposition id.');
                     return;
                 }
-                const memberIds = yield members_1.default.find({ stakeId: id }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const wardIds = yield wards_1.default.find({
+                    stakeId: id,
+                }).distinct('_id');
+                const memberIds = yield members_1.default.find({
+                    wardId: {
+                        $in: wardIds,
+                    },
+                }).distinct('_id');
+                const propositions = (yield propositions_1.default.find({
                     memberId: {
-                        $in: memberIds
-                    }
-                });
+                        $in: memberIds,
+                    },
+                }));
                 res.status(200).json(propositions);
             }
             catch (err) {
@@ -410,14 +420,14 @@ const propositions = {
                 }
                 const callingIds = yield callings_1.default.find({ organizationId: orgId }).distinct('_id');
                 const memberIds = yield members_1.default.find({ wardId: wardId }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const propositions = (yield propositions_1.default.find({
                     callingId: {
-                        $in: callingIds
+                        $in: callingIds,
                     },
                     memberId: {
-                        $in: memberIds
-                    }
-                });
+                        $in: memberIds,
+                    },
+                }));
                 /* #swagger.responses[200] = {
                         description: 'Returns an array of proposition objects.'
                 } */
@@ -473,12 +483,12 @@ const propositions = {
                     return;
                 }
                 const memberIds = yield members_1.default.find({ wardId: wardId }).distinct('_id');
-                const propositions = yield propositions_1.default.find({
+                const propositions = (yield propositions_1.default.find({
                     callingId: callingId,
                     memberId: {
-                        $in: memberIds
-                    }
-                });
+                        $in: memberIds,
+                    },
+                }));
                 /* #swagger.responses[200] = {
                         description: 'Returns an array of proposition objects.'
                 } */
@@ -491,6 +501,6 @@ const propositions = {
                 res.status(500).json(err);
             }
         });
-    }
+    },
 };
 exports.default = propositions;
