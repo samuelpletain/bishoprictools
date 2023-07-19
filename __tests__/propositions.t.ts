@@ -99,4 +99,28 @@ describe('Ward routes', () => {
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(200);
   }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId', async () => {
+    const res = await request(app).get(
+      `/proposition/ward/6493925960042c532a58a087`
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId/calling/:callingId', async () => {
+    const res = await request(app).get(
+      `/proposition/ward/6493925960042c532a58a087/organization/649345be812b4a3f37335cf6`
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId/organization/:organizationId', async () => {
+    const res = await request(app).get(
+      `/proposition/ward/6493925960042c532a58a087/calling/6497892b726a492433415e1a`
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
 });

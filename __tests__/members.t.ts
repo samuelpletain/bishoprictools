@@ -77,7 +77,6 @@ describe('Member routes', () => {
     };
 
     const res = await request(app).put(`/member/${id}`).send(update);
-    console.log(res);
     expect(res.statusCode).toBe(204);
   });
 
