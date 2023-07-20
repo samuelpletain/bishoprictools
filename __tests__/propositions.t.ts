@@ -8,15 +8,15 @@ const dbstring = process.env.ATLAS_URI || '';
 
 beforeAll(async () => {
   jest.setTimeout(60000);
-  server.close();
+  await server.close();
   await mongoose.connection.close();
   await mongoose.connect(dbstring);
 });
 
 afterAll(async () => {
   await mongoose.connection.close();
-  server.close();
-  jest.setTimeout(3000);
+  await server.close();
+  jest.setTimeout(60000);
 });
 
 describe('Ward routes', () => {
@@ -96,6 +96,38 @@ describe('Ward routes', () => {
     );
     expect(error.statusCode).toBe(400);
     const res = await request(app).delete(`/proposition/${id}`);
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId', async () => {
+    const res = await request(app).get(
+      '/proposition/ward/6493925960042c532a58a087'
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/stake/:stakeId', async () => {
+    const res = await request(app).get(
+      '/proposition/stake/64b763f9afc286d42818dcf7'
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId/calling/:callingId', async () => {
+    const res = await request(app).get(
+      '/proposition/ward/6493925960042c532a58a087/calling/6497892b726a492433415e1a'
+    );
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.statusCode).toBe(200);
+  }, 20000);
+
+  test('responds to GET /proposition/ward/:wardId/organization/:organizationId', async () => {
+    const res = await request(app).get(
+      '/proposition/ward/6493925960042c532a58a087/organization/649345be812b4a3f37335cf6'
+    );
     expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(200);
   }, 20000);

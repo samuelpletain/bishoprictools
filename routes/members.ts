@@ -5,12 +5,12 @@ import authCheck from '../middlewares/authCheck';
 const router: express.Router = express.Router();
 
 router
-  .get('/member', authCheck, members.getAllMembers)
-  .get('/member/:memberId', authCheck, members.getMemberById)
-  .post('/member', authCheck, members.createMember)
-  .put('/member/:memberId', authCheck, members.updateMemberById)
-  .delete('/member/:memberId', authCheck, members.deleteMemberById)
-  .get('/member/ward/:wardId', authCheck, members.getMembersByWardId)
-  .get('/member/stake/:stakeId', authCheck, members.getMembersByStakeId);
+  .get('/member', members.getAllMembers)
+  .get('/member/:memberId', members.getMemberById)
+  .post('/member', members.createMember)
+  .put('/member/:memberId', members.updateMemberById)
+  .delete('/member/:memberId', members.deleteMemberById)
+  .get('/member/ward/:wardId', members.getMembersByWardId)
+  .get('/member/stake/:stakeId', members.getMembersByStakeId);
 
 export default router;
