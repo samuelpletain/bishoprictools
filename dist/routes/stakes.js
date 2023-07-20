@@ -28,12 +28,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const stakes_1 = __importDefault(require("../controllers/stakes"));
-const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
 const router = express.Router();
 router
-    .get('/stake', authCheck_1.default, stakes_1.default.getAllStakes)
-    .get('/stake/:stakeId', authCheck_1.default, stakes_1.default.getStakeById)
-    .post('/stake', authCheck_1.default, stakes_1.default.createStake)
-    .put('/stake/:stakeId', authCheck_1.default, stakes_1.default.updateStakeById)
-    .delete('/stake/:stakeId', authCheck_1.default, stakes_1.default.deleteStakeById);
+    .get('/stake', stakes_1.default.getAllStakes)
+    .get('/stake/:stakeId', stakes_1.default.getStakeById)
+    .post('/stake', stakes_1.default.createStake)
+    .put('/stake/:stakeId', stakes_1.default.updateStakeById)
+    .delete('/stake/:stakeId', stakes_1.default.deleteStakeById);
 exports.default = router;

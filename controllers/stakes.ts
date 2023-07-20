@@ -12,9 +12,10 @@ const stakes = {
           }] */
     // #swagger.summary = "This endpoint returns a list of all the stakes in the database."
     try {
-      const stakes = await Stake.find() as Stake[];
+      const stakes = (await Stake.find()) as Stake[];
       /* #swagger.responses[200] = {
-              description: 'Returns an array of stake objects.'
+              description: 'Returns an array of stake objects.',
+              schema: [{ $ref: '#/definitions/Stake' }]
       } */
       res.status(200).json(stakes);
     } catch (err) {
@@ -48,9 +49,10 @@ const stakes = {
         res.status(400).json('Please provide a valid stake id.');
         return;
       }
-      const stake = await Stake.findOne(id) as Stake;
+      const stake = (await Stake.findOne(id)) as Stake;
       /* #swagger.responses[200] = {
-              description: 'Returns a stake object.'
+              description: 'Returns a stake object.',
+              schema: { $ref: '#/definitions/Stake' }
       } */
       res.status(200).json(stake);
     } catch (err) {
@@ -77,14 +79,14 @@ const stakes = {
     try {
       const stake = new Stake({
         name: req.body.name,
-        stakeId: req.body.stakeId
+        stakeId: req.body.stakeId,
       });
       const newStake = await stake.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided stake object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          error: err.message,
         });
       });
       /* #swagger.responses[201] = {
@@ -157,8 +159,8 @@ const stakes = {
     try {
       const stake = {
         name: req.body.name,
-        stakeId: req.body.stakeId
-      }
+        stakeId: req.body.stakeId,
+      };
       let id: ObjectId;
       try {
         id = new ObjectId(req.params.stakeId);
@@ -169,14 +171,16 @@ const stakes = {
         res.status(400).json('Please provide a valid stake id.');
         return;
       }
-      await Stake.replaceOne({ _id: id }, stake, { runValidators: true }).catch((err: Error) => {
-        /* #swagger.responses[422] = {
+      await Stake.replaceOne({ _id: id }, stake, { runValidators: true }).catch(
+        (err: Error) => {
+          /* #swagger.responses[422] = {
               description: 'The provided stake object does not pass validation.'
       } */
-        res.status(422).json({
-          error: err.message
-        });
-      });
+          res.status(422).json({
+            error: err.message,
+          });
+        }
+      );
       /* #swagger.responses[204] = {
                   description: 'The specified stake has been edited.',
           } */

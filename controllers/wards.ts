@@ -14,7 +14,8 @@ const wards = {
     try {
       const wards = (await Ward.find()) as Ward[];
       /* #swagger.responses[200] = {
-              description: 'Returns an array of ward objects.'
+              description: 'Returns an array of ward objects.',
+              schema: [{ $ref: '#/definitions/Ward' }]
       } */
       res.status(200).json(wards);
     } catch (err) {
@@ -50,7 +51,8 @@ const wards = {
       }
       const ward = (await Ward.findOne(id)) as Ward;
       /* #swagger.responses[200] = {
-              description: 'Returns a ward object.'
+              description: 'Returns a ward object.',
+              schema: { $ref: '#/definitions/Ward' }
       } */
       res.status(200).json(ward);
     } catch (err) {

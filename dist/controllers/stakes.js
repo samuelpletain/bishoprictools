@@ -25,9 +25,10 @@ const stakes = {
                   }] */
             // #swagger.summary = "This endpoint returns a list of all the stakes in the database."
             try {
-                const stakes = yield stakes_1.default.find();
+                const stakes = (yield stakes_1.default.find());
                 /* #swagger.responses[200] = {
-                        description: 'Returns an array of stake objects.'
+                        description: 'Returns an array of stake objects.',
+                        schema: [{ $ref: '#/definitions/Stake' }]
                 } */
                 res.status(200).json(stakes);
             }
@@ -64,9 +65,10 @@ const stakes = {
                     res.status(400).json('Please provide a valid stake id.');
                     return;
                 }
-                const stake = yield stakes_1.default.findOne(id);
+                const stake = (yield stakes_1.default.findOne(id));
                 /* #swagger.responses[200] = {
-                        description: 'Returns a stake object.'
+                        description: 'Returns a stake object.',
+                        schema: { $ref: '#/definitions/Stake' }
                 } */
                 res.status(200).json(stake);
             }
@@ -95,14 +97,14 @@ const stakes = {
             try {
                 const stake = new stakes_1.default({
                     name: req.body.name,
-                    stakeId: req.body.stakeId
+                    stakeId: req.body.stakeId,
                 });
                 const newStake = yield stake.save().catch((err) => {
                     /* #swagger.responses[422] = {
                           description: 'The provided stake object does not pass validation.'
                   } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[201] = {
@@ -180,7 +182,7 @@ const stakes = {
             try {
                 const stake = {
                     name: req.body.name,
-                    stakeId: req.body.stakeId
+                    stakeId: req.body.stakeId,
                 };
                 let id;
                 try {
@@ -195,10 +197,10 @@ const stakes = {
                 }
                 yield stakes_1.default.replaceOne({ _id: id }, stake, { runValidators: true }).catch((err) => {
                     /* #swagger.responses[422] = {
-                          description: 'The provided stake object does not pass validation.'
-                  } */
+                        description: 'The provided stake object does not pass validation.'
+                } */
                     res.status(422).json({
-                        error: err.message
+                        error: err.message,
                     });
                 });
                 /* #swagger.responses[204] = {
