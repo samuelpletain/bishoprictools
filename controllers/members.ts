@@ -127,7 +127,7 @@ const members = {
               ]
           }] */
     // #swagger.summary = "This endpoint deletes a single member."
-    /*  #swagger.parameters['wardId'] = {
+    /*  #swagger.parameters['memberId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
@@ -163,7 +163,7 @@ const members = {
               ]
           }] */
     // #swagger.summary = "This endpoint updates the content of a single member."
-    /*  #swagger.parameters['wardId'] = {
+    /*  #swagger.parameters['memberId'] = {
                   in: 'path',
                   description: 'A MongoDB ObjectId',
                   required: true
