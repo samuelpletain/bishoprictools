@@ -500,36 +500,7 @@
                         "description": "An object representing a new proposition",
                         "required": true,
                         "schema": {
-                            "type": "object",
-                            "properties": {
-                                "content": {
-                                    "type": "string",
-                                    "example": "Jhon Doe"
-                                },
-                                "authorId": {
-                                    "type": "string",
-                                    "example": "6465a918462368509b563b23"
-                                },
-                                "tags": {
-                                    "type": "array",
-                                    "example": [
-                                        "Technology",
-                                        "Innovation",
-                                        "Programming"
-                                    ],
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                },
-                                "replyTo": {
-                                    "type": "string",
-                                    "example": "6465abf6462368509b563b30"
-                                }
-                            },
-                            "required": [
-                                "content",
-                                "authorId"
-                            ]
+                            "$ref": "#/definitions/Proposition"
                         }
                     }
                 ],

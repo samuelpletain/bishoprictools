@@ -94,12 +94,7 @@ const propositions = {
                           in: 'body',
                           description: 'An object representing a new proposition',
                           required: true,
-                          schema: {
-                            $content: 'Jhon Doe',
-                            $authorId: '6465a918462368509b563b23',
-                            tags: ["Technology", "Innovation", "Programming"],
-                            replyTo: "6465abf6462368509b563b30"
-                          }
+                          schema: { $ref: '#/definitions/Proposition' }
                   } */
             try {
                 const proposition = new propositions_1.default({
