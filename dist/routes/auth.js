@@ -34,10 +34,10 @@ const routes = express.Router();
 routes.get('/login', auth_1.default.login);
 routes.get('/logout', auth_1.default.logout);
 routes.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile']
+    scope: ['profile'],
 }));
 routes.get('/auth/google/redirect', passport.authenticate('google', {
     successRedirect: '/proposition',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
 }));
 exports.default = routes;

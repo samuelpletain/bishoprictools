@@ -48,7 +48,7 @@ const members = {
                       ]
                   }] */
             // #swagger.summary = "This endpoint returns the details of a single member."
-            /*  #swagger.parameters['wardId'] = {
+            /*  #swagger.parameters['memberId'] = {
                           in: 'path',
                           description: 'A MongoDB ObjectId',
                           required: true

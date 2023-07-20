@@ -20,18 +20,19 @@ require('dotenv').config();
 const dbstring = process.env.ATLAS_URI || '';
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     jest.setTimeout(60000);
-    server_1.server.close();
+    yield server_1.server.close();
     yield mongoose_1.default.connection.close();
     yield mongoose_1.default.connect(dbstring);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
-    server_1.server.close();
-    jest.setTimeout(3000);
+    yield server_1.server.close();
+    jest.setTimeout(60000);
 }));
 (0, globals_1.describe)('Ward routes', () => {
     const newWard = {
         name: 'Midvale 2nd',
+        stakeId: '64b763f9afc286d42818dcf7',
     };
     let id = '';
     const newName = 'Midvale 3rd';
@@ -53,6 +54,7 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         (0, globals_1.expect)(res.statusCode).toBe(200);
         (0, globals_1.expect)(JSON.parse(res.text)).toEqual({
             name: newWard.name,
+            stakeId: newWard.stakeId,
             _id: id,
             __v: 0,
         });
@@ -64,6 +66,7 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         (0, globals_1.expect)(JSON.parse(error.text)).toEqual('Please provide a valid ward id.');
         const res = yield (0, supertest_1.default)(server_1.app).put(`/ward/${id}`).send({
             name: newName,
+            stakeId: '64b763f9afc286d42818dcf7',
         });
         (0, globals_1.expect)(res.statusCode).toBe(204);
     }), 20000);
@@ -74,6 +77,7 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         (0, globals_1.expect)(JSON.parse(res.text)).toEqual(globals_1.expect.arrayContaining([
             {
                 name: newName,
+                stakeId: newWard.stakeId,
                 _id: id,
                 __v: 0,
             },

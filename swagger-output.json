@@ -275,14 +275,8 @@
             "name": "memberId",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "wardId",
-            "in": "path",
-            "description": "A MongoDB ObjectId",
-            "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "A MongoDB ObjectId"
           }
         ],
         "responses": {
