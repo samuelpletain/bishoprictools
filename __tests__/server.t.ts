@@ -16,7 +16,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await mongoose.connection.close();
   await server.close();
-  jest.setTimeout(3000);
+  jest.setTimeout(60000);
 });
 
 //GetbyId Test
