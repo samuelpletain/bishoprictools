@@ -29,7 +29,16 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Returns an array of calling objects."
+            "description": "Returns an array of calling objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Calling"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "An error occured."
@@ -95,7 +104,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns a calling object."
+            "description": "Returns a calling object.",
+            "schema": {
+              "$ref": "#/definitions/Calling"
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -194,7 +206,16 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Returns an array of member objects."
+            "description": "Returns an array of member objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Member"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "An error occured."
@@ -266,7 +287,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns a member object."
+            "description": "Returns a member object.",
+            "schema": {
+              "$ref": "#/definitions/Member"
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -381,23 +405,62 @@
             "required": true,
             "type": "string",
             "description": "A MongoDB ObjectId"
-          },
-          {
-            "name": "newMember",
-            "in": "body",
-            "description": "An object representing a new member",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Member"
-              }
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Returns an array of member objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Member"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/member/stake/{stakeId}": {
+      "get": {
+        "summary": "This endpoint returns all members for a given stake.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "stakeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns an array of member objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Member"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -492,20 +555,7 @@
           "201": {
             "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
             "schema": {
-              "type": "object",
-              "properties": {
-                "acknowledged": {
-                  "type": "boolean",
-                  "example": true
-                },
-                "insertedId": {
-                  "type": "string",
-                  "example": "643f75ca2cec8ebd2a3cc16c"
-                }
-              },
-              "xml": {
-                "name": "main"
-              }
+              "$ref": "#/definitions/Proposition"
             }
           },
           "422": {
@@ -645,23 +695,20 @@
             "required": true,
             "type": "string",
             "description": "A MongoDB ObjectId"
-          },
-          {
-            "name": "newProposition",
-            "in": "body",
-            "description": "An object representing a new proposition",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Proposition"
-              }
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Returns an array of proposition objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Proposition"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -690,23 +737,20 @@
             "required": true,
             "type": "string",
             "description": "A MongoDB ObjectId"
-          },
-          {
-            "name": "newProposition",
-            "in": "body",
-            "description": "An object representing a new proposition",
-            "required": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Proposition"
-              }
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Returns an array of proposition objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Proposition"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -746,7 +790,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns an array of proposition objects."
+            "description": "Returns an array of proposition objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Proposition"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -786,7 +839,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns an array of proposition objects."
+            "description": "Returns an array of proposition objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Proposition"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -811,7 +873,16 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Returns an array of ward objects."
+            "description": "Returns an array of ward objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Ward"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
             "description": "An error occured."
@@ -877,7 +948,10 @@
         ],
         "responses": {
           "200": {
-            "description": "Returns a ward object."
+            "description": "Returns a ward object.",
+            "schema": {
+              "$ref": "#/definitions/Ward"
+            }
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -952,6 +1026,183 @@
         "responses": {
           "200": {
             "description": "The specified ward has been deleted."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/stake": {
+      "get": {
+        "summary": "This endpoint returns a list of all the stakes in the database.",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Returns an array of stake objects.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Stake"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "summary": "This endpoint creates a stake.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "newStake",
+            "in": "body",
+            "description": "An object representing a new stake",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Stake"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Returns an object containing the result of the request and a string representing a MongoDB ObjectId.",
+            "schema": {
+              "$ref": "#/definitions/Stake"
+            }
+          },
+          "422": {
+            "description": "The provided stake object does not pass validation."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      }
+    },
+    "/stake/{stakeId}": {
+      "get": {
+        "summary": "This endpoint returns the details of a single stake.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "stakeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a stake object.",
+            "schema": {
+              "$ref": "#/definitions/Stake"
+            }
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "summary": "This endpoint updates the content of a single stake.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "stakeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          },
+          {
+            "name": "stake",
+            "in": "body",
+            "description": "An updated stake object",
+            "schema": {
+              "$ref": "#/definitions/Stake"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "The specified stake has been edited."
+          },
+          "400": {
+            "description": "An invalid MongoDB ObjectId was provided."
+          },
+          "422": {
+            "description": "The provided stake object does not pass validation."
+          },
+          "500": {
+            "description": "An error occured."
+          }
+        },
+        "security": [
+          {
+            "oAuthSample": [
+              "https://www.googleapis.com/auth/userinfo.profile"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "summary": "This endpoint deletes a single stake.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "stakeId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "A MongoDB ObjectId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The specified stake has been deleted."
           },
           "400": {
             "description": "An invalid MongoDB ObjectId was provided."
@@ -1043,10 +1294,15 @@
         "name": {
           "type": "string",
           "example": "Midvale 11th"
+        },
+        "stakeId": {
+          "type": "string",
+          "example": "64b763f9afc286d42818dcf7"
         }
       },
       "required": [
-        "name"
+        "name",
+        "stakeId"
       ]
     },
     "Member": {
@@ -1096,6 +1352,18 @@
       "required": [
         "firstName",
         "lastName"
+      ]
+    },
+    "Stake": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Paris East"
+        }
+      },
+      "required": [
+        "name"
       ]
     }
   }

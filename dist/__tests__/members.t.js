@@ -20,18 +20,17 @@ require('dotenv').config();
 const dbstring = process.env.ATLAS_URI || '';
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     jest.setTimeout(60000);
-    yield server_1.server.close();
+    server_1.server.close();
     yield mongoose_1.default.connection.close();
     yield mongoose_1.default.connect(dbstring);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
-    yield server_1.server.close();
+    server_1.server.close();
     jest.setTimeout(3000);
 }));
 (0, globals_1.describe)('Member routes', () => {
     let id = '';
-    // GET by id test
     (0, globals_1.test)('responds to /member/:memberId', () => __awaiter(void 0, void 0, void 0, function* () {
         const result = {
             _id: '6497233806e2f4b9a7f23f3e',
@@ -50,6 +49,7 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         (0, globals_1.expect)(res.statusCode).toBe(200);
         (0, globals_1.expect)(JSON.parse(res.text)).toEqual(result);
     }), 20000);
+    // Delete Test
     // POST Test
     (0, globals_1.test)('responds to POST /member', () => __awaiter(void 0, void 0, void 0, function* () {
         const postInfo = {
@@ -67,11 +67,6 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         const member = JSON.parse(res.text);
         id = member._id;
     }));
-    (0, globals_1.test)('responds to GET /member', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/member');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
     // PUT Test
     (0, globals_1.test)('responds to PUT /member/:memberId', () => __awaiter(void 0, void 0, void 0, function* () {
         const update = {
@@ -86,21 +81,11 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
             __v: 0,
         };
         const res = yield (0, supertest_1.default)(server_1.app).put(`/member/${id}`).send(update);
+        console.log(res);
         (0, globals_1.expect)(res.statusCode).toBe(204);
     }));
-    // DELETE test
     (0, globals_1.test)('responds to /member/:memberId', () => __awaiter(void 0, void 0, void 0, function* () {
         const res = yield (0, supertest_1.default)(server_1.app).delete(`/member/${id}`);
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /member/stake/:stakeId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/member/stake/64b763f9afc286d42818dcf7');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /member/ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/member/ward/6493925960042c532a58a087');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
         (0, globals_1.expect)(res.statusCode).toBe(200);
     }), 20000);
 });

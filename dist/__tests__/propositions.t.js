@@ -20,13 +20,13 @@ require('dotenv').config();
 const dbstring = process.env.ATLAS_URI || '';
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     jest.setTimeout(60000);
-    yield server_1.server.close();
+    server_1.server.close();
     yield mongoose_1.default.connection.close();
     yield mongoose_1.default.connect(dbstring);
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
-    yield server_1.server.close();
+    server_1.server.close();
     jest.setTimeout(3000);
 }));
 (0, globals_1.describe)('Ward routes', () => {
@@ -91,26 +91,6 @@ afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
         (0, globals_1.expect)(error.header['content-type']).toBe('application/json; charset=utf-8');
         (0, globals_1.expect)(error.statusCode).toBe(400);
         const res = yield (0, supertest_1.default)(server_1.app).delete(`/proposition/${id}`);
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /proposition/ward/:wardId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/proposition/ward/6493925960042c532a58a087');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /proposition/stake/:stakeId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/proposition/stake/64b763f9afc286d42818dcf7');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /proposition/ward/:wardId/calling/:callingId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/proposition/ward/6493925960042c532a58a087/calling/6497892b726a492433415e1a');
-        (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
-        (0, globals_1.expect)(res.statusCode).toBe(200);
-    }), 20000);
-    (0, globals_1.test)('responds to GET /proposition/ward/:wardId/organization/:organizationId', () => __awaiter(void 0, void 0, void 0, function* () {
-        const res = yield (0, supertest_1.default)(server_1.app).get('/proposition/ward/6493925960042c532a58a087/organization/649345be812b4a3f37335cf6');
         (0, globals_1.expect)(res.header['content-type']).toBe('application/json; charset=utf-8');
         (0, globals_1.expect)(res.statusCode).toBe(200);
     }), 20000);

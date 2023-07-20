@@ -28,11 +28,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = __importStar(require("express"));
 const wards_1 = __importDefault(require("../controllers/wards"));
+const authCheck_1 = __importDefault(require("../middlewares/authCheck"));
 const router = express.Router();
 router
-    .get('/ward', wards_1.default.getAllWards)
-    .get('/ward/:wardId', wards_1.default.getWardById)
-    .post('/ward', wards_1.default.createWard)
-    .put('/ward/:wardId', wards_1.default.updateWardById)
-    .delete('/ward/:wardId', wards_1.default.deleteWardById);
+    .get('/ward', authCheck_1.default, wards_1.default.getAllWards)
+    .get('/ward/:wardId', authCheck_1.default, wards_1.default.getWardById)
+    .post('/ward', authCheck_1.default, wards_1.default.createWard)
+    .put('/ward/:wardId', authCheck_1.default, wards_1.default.updateWardById)
+    .delete('/ward/:wardId', authCheck_1.default, wards_1.default.deleteWardById);
 exports.default = router;

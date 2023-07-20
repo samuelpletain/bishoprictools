@@ -140,10 +140,7 @@ const propositions = {
                 });
                 /* #swagger.responses[201] = {
                         description: 'Returns an object containing the result of the request and a string representing a MongoDB ObjectId.',
-                        schema: {
-                                acknowledged: true,
-                                insertedId: "643f75ca2cec8ebd2a3cc16c"
-                            }
+                        schema: { $ref: '#/definitions/Proposition' }
                 } */
                 res.status(201).json(newProposition);
             }
@@ -284,12 +281,6 @@ const propositions = {
                       ]
                   }] */
             // #swagger.summary = "This endpoint returns all propositions for a given ward."
-            /*  #swagger.parameters['newProposition'] = {
-                          in: 'body',
-                          description: 'An object representing a new proposition',
-                          required: true,
-                          schema: [{ $ref: '#/definitions/Proposition' }]
-                  } */
             /*  #swagger.parameters['wardId'] = {
                     in: 'path',
                     description: 'A MongoDB ObjectId',
@@ -313,6 +304,10 @@ const propositions = {
                         $in: memberIds,
                     },
                 }));
+                /* #swagger.responses[200] = {
+                        description: 'Returns an array of proposition objects.',
+                        schema: [{ $ref: '#/definitions/Proposition' }],
+                } */
                 res.status(200).json(propositions);
             }
             catch (err) {
@@ -331,12 +326,6 @@ const propositions = {
                       ]
                   }] */
             // #swagger.summary = "This endpoint returns all propositions for a given stake."
-            /*  #swagger.parameters['newProposition'] = {
-                          in: 'body',
-                          description: 'An object representing a new proposition',
-                          required: true,
-                          schema: [{ $ref: '#/definitions/Proposition' }]
-                  } */
             /*  #swagger.parameters['stakeId'] = {
                     in: 'path',
                     description: 'A MongoDB ObjectId',
@@ -367,6 +356,10 @@ const propositions = {
                         $in: memberIds,
                     },
                 }));
+                /* #swagger.responses[200] = {
+                        description: 'Returns an array of proposition objects.',
+                        schema: [{ $ref: '#/definitions/Proposition' }],
+                } */
                 res.status(200).json(propositions);
             }
             catch (err) {
@@ -429,7 +422,8 @@ const propositions = {
                     },
                 }));
                 /* #swagger.responses[200] = {
-                        description: 'Returns an array of proposition objects.'
+                        description: 'Returns an array of proposition objects.',
+                        schema: [{ $ref: '#/definitions/Proposition' }],
                 } */
                 res.status(200).json(propositions);
             }
@@ -490,7 +484,8 @@ const propositions = {
                     },
                 }));
                 /* #swagger.responses[200] = {
-                        description: 'Returns an array of proposition objects.'
+                        description: 'Returns an array of proposition objects.',
+                        schema: [{ $ref: '#/definitions/Proposition' }],
                 } */
                 res.status(200).json(propositions);
             }

@@ -14,7 +14,8 @@ const members = {
     try {
       const members = (await Member.find()) as Member[];
       /* #swagger.responses[200] = {
-              description: 'Returns an array of member objects.'
+              description: 'Returns an array of member objects.',
+              schema: [{ $ref: '#/definitions/Member' }]
       } */
       res.status(200).json(members);
     } catch (err) {
@@ -50,7 +51,8 @@ const members = {
       }
       const member = (await Member.findOne(id)) as Member;
       /* #swagger.responses[200] = {
-              description: 'Returns a member object.'
+              description: 'Returns a member object.',
+              schema: { $ref: '#/definitions/Member' }
       } */
       res.status(200).json(member);
     } catch (err) {
@@ -234,12 +236,6 @@ const members = {
               ]
           }] */
     // #swagger.summary = "This endpoint returns all members for a given ward."
-    /*  #swagger.parameters['newMember'] = {
-                  in: 'body',
-                  description: 'An object representing a new member',
-                  required: true,
-                  schema: [{ $ref: '#/definitions/Member' }]
-          } */
     /*  #swagger.parameters['wardId'] = {
             in: 'path',
             description: 'A MongoDB ObjectId',
@@ -257,6 +253,10 @@ const members = {
         return;
       }
       const members = (await Member.find({ wardId: id })) as Member[];
+      /* #swagger.responses[200] = {
+        description: 'Returns an array of member objects.',
+        schema: [{ $ref: '#/definitions/Member' }]
+      } */
       res.status(200).json(members);
     } catch (err) {
       /* #swagger.responses[500] = {
@@ -273,12 +273,6 @@ const members = {
             ]
         }] */
     // #swagger.summary = "This endpoint returns all members for a given stake."
-    /*  #swagger.parameters['newProposition'] = {
-                in: 'body',
-                description: 'An object representing a new member',
-                required: true,
-                schema: [{ $ref: '#/definitions/Member' }]
-        } */
     /*  #swagger.parameters['stakeId'] = {
           in: 'path',
           description: 'A MongoDB ObjectId',
@@ -304,6 +298,10 @@ const members = {
           $in: wardIds,
         },
       })) as Member[];
+      /* #swagger.responses[200] = {
+        description: 'Returns an array of member objects.',
+        schema: [{ $ref: '#/definitions/Member' }]
+      } */
       res.status(200).json(members);
     } catch (err) {
       /* #swagger.responses[500] = {

@@ -44,6 +44,9 @@ const doc = {
         '649345be812b4a3f37335cfb',
       ],
     },
+    Stake: {
+      $name: 'Paris East',
+    },
   },
   securityDefinitions: {
     oAuthSample: {
@@ -65,6 +68,7 @@ const endpointsFiles = [
   './routes/members.ts',
   './routes/propositions.ts',
   './routes/wards.ts',
+  './routes/stakes.ts',
 ];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);

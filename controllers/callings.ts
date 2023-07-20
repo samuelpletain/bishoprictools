@@ -12,9 +12,10 @@ const callings = {
           }] */
     // #swagger.summary = "This endpoint returns a list of all the callings in the database."
     try {
-      const callings = await Calling.find() as Calling[];
+      const callings = (await Calling.find()) as Calling[];
       /* #swagger.responses[200] = {
-              description: 'Returns an array of calling objects.'
+              description: 'Returns an array of calling objects.',
+        schema: [{ $ref: '#/definitions/Calling' }]
       } */
       res.status(200).json(callings);
     } catch (err) {
@@ -48,9 +49,10 @@ const callings = {
         res.status(400).json('Please provide a valid calling id.');
         return;
       }
-      const calling = await Calling.findOne(id) as Calling;
+      const calling = (await Calling.findOne(id)) as Calling;
       /* #swagger.responses[200] = {
-              description: 'Returns a calling object.'
+              description: 'Returns a calling object.',
+        schema: { $ref: '#/definitions/Calling' }
       } */
       res.status(200).json(calling);
     } catch (err) {
@@ -77,14 +79,14 @@ const callings = {
     try {
       const calling = new Calling({
         name: req.body.name,
-        organizationId: req.body.organizationId
+        organizationId: req.body.organizationId,
       });
       const newCalling = await calling.save().catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided calling object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          error: err.message,
         });
       });
       /* #swagger.responses[201] = {
@@ -157,8 +159,8 @@ const callings = {
     try {
       const calling = {
         name: req.body.name,
-        organizationId: req.body.organizationId
-      }
+        organizationId: req.body.organizationId,
+      };
       let id: ObjectId;
       try {
         id = new ObjectId(req.params.callingId);
@@ -169,12 +171,14 @@ const callings = {
         res.status(400).json('Please provide a valid calling id.');
         return;
       }
-      await Calling.replaceOne({ _id: id }, calling, { runValidators: true }).catch((err: Error) => {
+      await Calling.replaceOne({ _id: id }, calling, {
+        runValidators: true,
+      }).catch((err: Error) => {
         /* #swagger.responses[422] = {
               description: 'The provided calling object does not pass validation.'
       } */
         res.status(422).json({
-          error: err.message
+          error: err.message,
         });
       });
       /* #swagger.responses[204] = {
